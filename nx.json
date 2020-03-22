@@ -10,5 +10,13 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {}
+  "projects": {
+    "snmp-monitor": {
+      "tags": []
+    },
+    "snmp-monitor-e2e": {
+      "tags": [],
+      "implicitDependencies": ["snmp-monitor"]
+    }
+  }
 }
