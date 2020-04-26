@@ -1,0 +1,12 @@
+<div class="menu-left">
+  <div
+    (click)="onMenuLeftClick(item)"
+    class="menu-left__item"
+    *ngFor="let item of config"
+  >
+    <div class="menu-left__item__icon">
+      <img class="menu-left__item__icon" src="assets/images/{{ item.icon }}" />
+    </div>
+    <div class="menu-left__item__text">{{ item.label }}</div>
+  </div>
+</div>

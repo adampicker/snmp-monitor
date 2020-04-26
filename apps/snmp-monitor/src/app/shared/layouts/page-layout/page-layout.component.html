@@ -1,0 +1,12 @@
+<snmp-monitor-menu-top></snmp-monitor-menu-top>
+<div
+  class="menu-left"
+  [@openClose]="isOpen ? 'open' : 'closed'"
+  (mouseenter)="enter()"
+  (mouseleave)="leave()"
+>
+  <snmp-monitor-menu-left></snmp-monitor-menu-left>
+</div>
+<div class="router">
+  <router-outlet></router-outlet>
+</div>

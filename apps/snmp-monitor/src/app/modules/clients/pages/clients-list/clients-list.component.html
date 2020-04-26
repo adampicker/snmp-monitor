@@ -1,0 +1,52 @@
+<div class="clients-list-container">
+  <div class="clients-list-container__clients-list">
+    <div class="clients-list-container__clients-list__header">
+      <snmp-monitor-clients-list-header></snmp-monitor-clients-list-header>
+    </div>
+    <table class="snmp-grid">
+      <tr class="snmp-header">
+        <th class="snmp-header__th" *ngFor="let col of defaultColumns">
+          <span class=" snmp-header__th__text">{{ col.label }}</span>
+        </th>
+      </tr>
+      <tr class="snmp-row" *ngFor="let row of tableContent">
+        <td class="snmp-row__td" *ngFor="let col of defaultColumns">
+          <div *ngIf="col.type === 'number'" class="snmp-row__td number-cell">
+            {{ row[col.key] }}
+          </div>
+          <div *ngIf="col.type === 'status'" class="snmp-row__td status-cell">
+            <div
+              class="snmp-row__td status-cell__circle"
+              [ngClass]="{
+                inactive: row[col.key] === 0,
+                active: row[col.key] === 1,
+                error: row[col.key] === 2
+              }"
+            ></div>
+            <span
+              *ngIf="row[col.key] === 0"
+              class="snmp-row__td status-cell__text"
+              >INACTIVE</span
+            >
+            <span
+              *ngIf="row[col.key] === 1"
+              class="snmp-row__td status-cell__text"
+              >ACTIVE</span
+            >
+            <span
+              *ngIf="row[col.key] === 2"
+              class="snmp-row__td status-cell__text"
+              >ERROR</span
+            >
+          </div>
+          <div *ngIf="col.type === 'type'" class="snmp-row__td type-cell">
+            <i class="desktop"></i>
+            <span class="snmp-row__td type-cell__text">{{
+              row[col.key] | uppercase
+            }}</span>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

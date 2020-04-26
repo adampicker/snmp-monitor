@@ -25,7 +25,10 @@
               "apps/snmp-monitor/src/favicon.ico",
               "apps/snmp-monitor/src/assets"
             ],
-            "styles": ["apps/snmp-monitor/src/styles.scss"],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "apps/snmp-monitor/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -83,7 +86,10 @@
               "apps/snmp-monitor/tsconfig.app.json",
               "apps/snmp-monitor/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/snmp-monitor/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/snmp-monitor/**"
+            ]
           }
         },
         "test": {
@@ -118,8 +124,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/snmp-monitor-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/snmp-monitor-e2e/**"]
+            "tsConfig": [
+              "apps/snmp-monitor-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/snmp-monitor-e2e/**"
+            ]
           }
         }
       }

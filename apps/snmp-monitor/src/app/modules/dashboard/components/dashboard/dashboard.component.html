@@ -1,0 +1,64 @@
+<div class="dashboard">
+  <div class="dashboard__cards">
+    <div [routerLink]="['../clients']" class="dashboard__cards__card">
+      <div class="dashboard__cards__card__header">
+        <span class="dashboard__cards__card__header--text">Clients</span>
+      </div>
+      <div class="dashboard__cards__card__icons">
+        <i class="desktop"></i>
+        <i class="desktop desktop--lower"></i>
+        <i class="desktop"></i>
+      </div>
+      <div class="dashboard__cards__card__info">
+        <div class="dashboard__cards__card__info--text">
+          Clients online:
+        </div>
+        <div class="dashboard__cards__card__info--text">
+          Clients offline:
+        </div>
+        <div class="dashboard__cards__card__info--text">
+          Add new client:
+        </div>
+      </div>
+    </div>
+    <div class="dashboard__cards__card">
+      <div class="dashboard__cards__card__header">
+        <span class="dashboard__cards__card__header--text">Configurations</span>
+      </div>
+      <div class="dashboard__cards__card__icons">
+        <i class="wrench"></i>
+      </div>
+      <div class="dashboard__cards__card__info">
+        <div class="dashboard__cards__card__info--text">
+          Created configurations: 43
+        </div>
+        <div class="dashboard__cards__card__info--text">
+          Create new configuration
+        </div>
+        <div class="dashboard__cards__card__info--text">
+          Assign configuration to the user
+        </div>
+      </div>
+    </div>
+    <div [routerLink]="['../mibs']" class="dashboard__cards__card">
+      <div class="dashboard__cards__card__header">
+        <span class="dashboard__cards__card__header--text">Mib viewer</span>
+      </div>
+      <div class="dashboard__cards__card__icons">
+        <i class="channel"></i>
+      </div>
+      <div class="dashboard__cards__card__info">
+        <div class="dashboard__cards__card__info--text">
+          Mib added 43
+        </div>
+        <div class="dashboard__cards__card__info--text">
+          Mib's not in configurations: 5
+        </div>
+        <div class="dashboard__cards__card__info--text">
+          Show Mib list
+        </div>
+      </div>
+    </div>
+    <div class="dashboard__cards__card"></div>
+  </div>
+</div>

@@ -1,1 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+/* body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+.snmp-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  height: inherit;
+  width: inherit;
+  border: none;
+  cursor: pointer;
+
+  font-size: 15px;
+  font-weight: 600;
+  &--primary {
+    background-color: rgba(91, 7, 235, 0.9);
+    color: #fff;
+    &:hover {
+      background-color: #5b07eb;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+}

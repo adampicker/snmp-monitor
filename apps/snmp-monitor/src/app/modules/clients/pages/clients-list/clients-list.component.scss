@@ -1,0 +1,109 @@
+.clients-list-container {
+  display: flex;
+  justify-content: center;
+  width: calc(100%);
+  height: calc(100%);
+  background-color: #f2f2f2;
+  border-radius: 2px;
+  &__clients-list {
+    box-shadow: 0px 0px 12px -2px rgba(0, 0, 0, 0.75);
+    &__header {
+      width: 100%;
+      height: 80px;
+    }
+    margin-top: 5%;
+    width: 90%;
+    height: fit-content;
+    background-color: #ffffff;
+  }
+}
+
+.snmp-grid {
+  width: 100%;
+  border-collapse: collapse;
+
+  .snmp-header {
+    height: 40px;
+    color: #aeaeac;
+    border-top: 2px solid #cfcfcf;
+    border-bottom: 2px solid #cfcfcf;
+    &__th {
+      text-align: left;
+      &__text {
+        color: #aeaeac;
+        font-size: 14px;
+        padding: 4px 25px;
+        width: 100%;
+        border-left: 2px solid #cfcfcf;
+      }
+    }
+  }
+  .snmp-row {
+    height: 60px;
+    border-bottom: 1px solid #cfcfcf;
+    &__td {
+      font-size: 16px;
+      color: #aeaeac;
+      font-weight: 500;
+      padding: 5px;
+      &.number-cell {
+        width: 100%;
+        height: 100%;
+        color: #aeaeac;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      &.status-cell {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        &__circle {
+          height: 8px;
+          width: 8px;
+          align-self: center;
+          border-radius: 50%;
+          &.inactive {
+            background-color: #aeaeac;
+          }
+          &.active {
+            background-color: #28fc03;
+          }
+          &.error {
+            background-color: #fc0307;
+          }
+        }
+        &__text {
+          align-self: center;
+          font-size: 14px;
+          font-weight: 500;
+          color: #aeaeac;
+          margin-left: 12px;
+        }
+      }
+      &.type-cell {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        i.desktop {
+          content: url('apps/snmp-monitor/src/assets/images/desktop2.svg');
+          height: 30px;
+        }
+        &__text {
+          align-self: center;
+          font-size: 14px;
+          font-weight: 500;
+          color: #aeaeac;
+          margin-left: 12px;
+        }
+      }
+    }
+  }
+}
+
+tr.snmp-row:hover {
+  -moz-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.8);
+  -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.8);
+}

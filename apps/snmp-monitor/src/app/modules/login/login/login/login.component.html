@@ -1,0 +1,50 @@
+<div class="overlay">
+  <div class="login-container">
+    <div class="login-container__header">
+      Login
+    </div>
+    <div *ngIf="!isLoading; else x" class="login-container__login-form">
+      <form
+        class="login-container__login-form"
+        [formGroup]="signInForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <div class="login-container__login-form__field">
+          <label class="label">Username</label>
+          <input class="input" type="text" formControlName="username" />
+        </div>
+        <div
+          *ngIf="
+            signInForm.controls.username.touched &&
+            signInForm.controls.username.errors
+          "
+          class="login-container__login-form__error"
+        >
+          Field required
+        </div>
+
+        <div class="login-container__login-form__field">
+          <label class="label">Password</label>
+          <input class="input" type="password" formControlName="password" />
+        </div>
+        <div
+          *ngIf="
+            signInForm.controls.password.touched &&
+            signInForm.controls.password.errors
+          "
+          class="login-container__login-form__error password"
+        >
+          Field required
+        </div>
+        <div class="login-container__login-form__button-wrapper">
+          <button class="snmp-button snmp-button--primary">Log in</button>
+        </div>
+      </form>
+    </div>
+    <ng-template #x>
+      <div class="login-container__login-form">
+        <snmp-monitor-spinner></snmp-monitor-spinner>
+      </div>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+.menu-left {
+  height: 100%;
+  width: 80px;
+  position: fixed;
+  left: 0;
+  top: 72px;
+  z-index: 30;
+  overflow-y: auto;
+  box-shadow: 10px 0 10px -5px rgba(0, 0, 0, 0.2);
+  overflow-x: hidden;
+}
+
+.router {
+  margin-left: 72px;
+  margin-top: 65px;
+  position: absolute;
+  height: calc(100% - 72px);
+  width: calc(100% - 80px);
+}
+
+.expanded {
+  margin-left: 256px;
+}
