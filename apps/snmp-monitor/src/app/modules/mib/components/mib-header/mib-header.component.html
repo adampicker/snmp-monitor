@@ -2,4 +2,12 @@
   <div class="header__text">
     List of registered MIB's
   </div>
+  <div class="header__button">
+    <button
+      (click)="onHeaderButton($event)"
+      class="snmp-button snmp-button--primary"
+    >
+      {{ buttonLabel }}
+    </button>
+  </div>
 </div>

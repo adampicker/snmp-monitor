@@ -1,0 +1,27 @@
+<div class="modal-content">
+  <div class="modal-body">
+    <div
+      class="modal-body__tick"
+      [ngClass]="{
+        unsuccessful: success === false,
+        successful: success === true
+      }"
+    ></div>
+    <div class="modal-body__info" *ngIf="success; else unsucessful">
+      Configuration has been saved.
+    </div>
+    <ng-template #unsucessful>
+      <div class="modal-body__info">
+        Configuration has not been saved. Try again
+      </div>
+    </ng-template>
+
+    <div class="modal-body__buttons">
+      <div class="modal-body__buttons__close-wrapper">
+        <button (click)="closeModal()" class="snmp-button snmp-button--primary">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

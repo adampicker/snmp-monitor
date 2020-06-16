@@ -12,6 +12,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './core/interceptor/jwt.interceptor';
 import { MenuLeftComponent } from './shared/components/menu-left/menu-left.component';
 import { SharedModule } from './shared/shared.module';
+import { SimpleModalModule } from 'ngx-simple-modal';
+import { CoreModule } from './core/core.module';
+
+import { NgxEchartsModule } from 'ngx-echarts';
+
+import { ToastrModule } from 'ngx-toastr';
+import * as echarts from 'echarts';
 
 @NgModule({
   declarations: [AppComponent, PageLayoutComponent],
@@ -22,7 +29,19 @@ import { SharedModule } from './shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    CoreModule,
+    SimpleModalModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ToastrModule.forRoot({
+      closeButton: true,
+      positionClass: 'toast-top-center',
+      timeOut: 15000
+    }),
+    NgxEchartsModule.forRoot({
+      echarts
+    })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }

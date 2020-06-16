@@ -15,6 +15,12 @@
     width: 90%;
     height: fit-content;
     background-color: #ffffff;
+    &__loader {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+    }
   }
 }
 
@@ -106,4 +112,82 @@ tr.snmp-row:hover {
   -moz-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.8);
   -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.8);
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.8);
+}
+
+table {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 500px;
+}
+
+th.mat-header-cell {
+  text-align: left;
+  max-width: 300px;
+}
+
+.mat-sort-header-container {
+  font-size: 14px;
+}
+
+.mat-row.cdk-row {
+  &:hover {
+    background-color: #f2f2f2;
+  }
+}
+
+td.mat-cell {
+  .type-cell {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    i.desktop {
+      content: url('apps/snmp-monitor/src/assets/images/desktop2.svg');
+      height: 20px;
+    }
+    &__text {
+      margin-left: 10px;
+    }
+  }
+  .status-cell {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    .status-box {
+      width: 84px;
+      padding: 0 8px;
+      height: 24px;
+      color: #808185;
+      background-color: #e9eaea;
+      justify-content: center;
+      align-self: center;
+      margin-top: 7px;
+      border-radius: 12px;
+      display: flex;
+      &.green {
+        color: #35b37e;
+        background-color: #eaf7f2;
+      }
+      &.red {
+        color: #fb0026;
+        background-color: #ffe7ea;
+      }
+      &.orange {
+        color: #ff4500;
+        background-color: #ffede7;
+      }
+      &.blue {
+        color: #52ccfd;
+        background-color: #f0fbff;
+      }
+      &__text {
+        font-size: 14px;
+        font-weight: 500;
+        margin-top: 3px;
+      }
+    }
+  }
 }

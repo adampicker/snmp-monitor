@@ -19,7 +19,13 @@ export class AuthenticationService {
   });
 
   constructor(private http: HttpClient, private router: Router) {
-    this.currentUserSubject = new BehaviorSubject<User>({ username: null });
+    const token = sessionStorage.getItem('token');
+    console.log(token);
+
+    this.currentUserSubject = new BehaviorSubject<User>({
+      username: 'adam1',
+      token: token
+    });
     this.user$ = this.currentUserSubject.asObservable();
   }
 
@@ -48,6 +54,7 @@ export class AuthenticationService {
               username: username,
               token: res.headers.get('Authorization')
             });
+            sessionStorage.setItem('token', res.headers.get('Authorization'));
           }
         })
       );
@@ -69,5 +76,12 @@ export class AuthenticationService {
       username: 'adam1',
       password: 'adam'
     });
+  }
+
+  test() {
+    return this.http.get<any>(
+      `https://suprasl.logintrade.net/rejestracja/ustawowe.html`,
+      { observe: 'response' }
+    );
   }
 }

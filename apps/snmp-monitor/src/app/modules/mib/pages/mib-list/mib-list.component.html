@@ -1,9 +1,45 @@
 <div class="mibs-list-container">
   <div class="mibs-list-container__mibs-list">
-    <div class="mibs-list-container__mibs-list__header">
-      <snmp-monitor-mib-header></snmp-monitor-mib-header>
+    <div (click)="onClick()" class="mibs-list-container__mibs-list__header">
+      <div class="header">
+        <div class="header__text">
+          List of registered MIB's
+        </div>
+        <div class="header__button">
+          <button
+            (click)="onHeaderButton($event)"
+            class="snmp-button snmp-button--primary"
+          >
+            {{ headerButtonLabel }}
+          </button>
+        </div>
+      </div>
     </div>
-    <table mat-table [dataSource]="dataSource" matSort>
+    <div *ngIf="isLoading" class="mibs-list-container__mibs-list__loader">
+      <mat-spinner></mat-spinner>
+    </div>
+    <table
+      [ngStyle]="{ display: isLoading === true ? 'none' : null }"
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+    >
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Select</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="select-cell">
+            <label class="container">
+              <input
+                type="checkbox"
+                [checked]="false"
+                (change)="rowSelected($event, element)"
+              />
+              <span class="checkmark"></span>
+            </label>
+          </div>
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="oid">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>OID</th>
         <td mat-cell *matCellDef="let element">{{ element.oid }}</td>

@@ -8,9 +8,16 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 } */
+@import '~ngx-toastr/toastr';
 
+// bootstrap style toast
+// or import a bootstrap 4 alert styled design (SASS ONLY)
+// should be after your bootstrap imports, it uses bs4 variables, mixins, functions
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
+$alert-border-radius: 4px;
+
+//@import '../../../node_modules/ngx-simple-modal/styles/simple-modal.scss';
 .snmp-button {
   display: flex;
   flex-direction: column;
@@ -21,17 +28,351 @@ body {
   width: inherit;
   border: none;
   cursor: pointer;
-
   font-size: 15px;
   font-weight: 600;
+  &:focus {
+    outline: none;
+  }
   &--primary {
     background-color: rgba(91, 7, 235, 0.9);
     color: #fff;
     &:hover {
       background-color: #5b07eb;
     }
-    &:focus {
-      outline: none;
+  }
+  &--secondary {
+    background-color: #fff;
+    border: 1px solid black;
+    color: black;
+    &:hover {
+      border: 2px solid black;
     }
   }
+}
+
+/* total width */
+::-webkit-scrollbar {
+  background-color: #fff;
+  width: 16px;
+}
+
+/* background of the scrollbar except button or resizer */
+::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+::-webkit-scrollbar-track:hover {
+  background-color: #f4f4f4;
+}
+
+/* scrollbar itself */
+::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 16px;
+  border: 5px solid #fff;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a0a0a5;
+  border: 4px solid #f4f4f4;
+}
+
+/* set button(top and bottom of the scrollbar) */
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+/// MODAL STYLES
+
+$_opacity: 0.4;
+$_gutter-s: 8px;
+$_gutter-m: 16px;
+$_constant-border: 1px solid #cecece;
+
+.modal {
+  background-color: rgba(#000000, 0.4);
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  outline: 0;
+  overflow: hidden;
+  padding: 0 16px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 10; /* Adjust according to your needs */
+  text-align: center;
+
+  &.fade-anim {
+    opacity: 0;
+    will-change: opacity;
+
+    .modal-content {
+      transform: translate(0, -25%);
+      will-change: transform;
+    }
+  }
+
+  &.in {
+    .modal-content {
+      transform: translate(0, 0);
+      animation-name: slideInDown;
+      animation-duration: 0.5s;
+      animation-fill-mode: both;
+    }
+  }
+
+  &.fade-anim.in {
+    opacity: 1;
+  }
+}
+
+/* .moda.fade-anim {
+  transition: opacity 400ms ease-in-out;
+  will-change: opacity;
+  opacity: 0;
+}
+.modal-fade-anim-in {
+  opacity: 1;
+}
+
+.modal-open {
+  //overflow: hidden;
+} */
+
+.modal-content {
+  background-color: #ffffff;
+  border-radius: 4px;
+  margin: $_gutter-m auto;
+  max-width: 580px;
+  position: relative;
+  width: 100%;
+  will-change: opacity;
+  display: inline-block;
+  text-align: left;
+
+  &-size-m {
+    max-width: 992px;
+  }
+
+  &-size-l {
+    max-width: 1200px;
+  }
+}
+
+.modal-header,
+.modal-footer {
+  align-items: center;
+  display: flex;
+  height: 56px;
+  padding: 0 $_gutter-m;
+}
+
+.modal-header {
+  border-bottom: $_constant-border;
+  justify-content: center;
+
+  h3 {
+    color: inherit;
+  }
+}
+
+.modal-body {
+  padding: $_gutter-m;
+}
+
+.modal-footer {
+  border-top: $_constant-border;
+  justify-content: flex-end;
+
+  .btn {
+    margin: 0 0 0 $_gutter-s;
+  }
+}
+
+.slideInDown {
+  -webkit-animation-name: slideInDown;
+  animation-name: slideInDown;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@keyframes slideInDown {
+  0% {
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+    visibility: visible;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+.slideOutUp {
+  -webkit-animation-name: slideOutUp;
+  animation-name: slideOutUp;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes slideOutUp {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  100% {
+    visibility: hidden;
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+  }
+}
+@keyframes slideOutUp {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  100% {
+    visibility: hidden;
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+  }
+}
+// IOS SWITCH START
+.form-switch {
+  display: inline-block;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.form-switch i {
+  position: relative;
+  display: inline-block;
+  margin-right: 0.5rem;
+  width: 46px;
+  height: 26px;
+  background-color: #e6e6e6;
+  border-radius: 23px;
+  vertical-align: text-bottom;
+  transition: all 0.3s linear;
+}
+
+.form-switch i::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 42px;
+  height: 22px;
+  background-color: #fff;
+  border-radius: 11px;
+  transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+  transition: all 0.25s linear;
+}
+
+.form-switch i::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  background-color: #fff;
+  border-radius: 11px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
+  transform: translate3d(2px, 2px, 0);
+  transition: all 0.2s ease-in-out;
+}
+
+.form-switch:active i::after {
+  width: 28px;
+  transform: translate3d(2px, 2px, 0);
+}
+
+.form-switch:active input:checked + i::after {
+  transform: translate3d(16px, 2px, 0);
+}
+
+.form-switch input {
+  display: none;
+}
+
+.form-switch input:checked + i {
+  background-color: #4bd763;
+}
+
+.form-switch input:checked + i::before {
+  transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);
+}
+
+.form-switch input:checked + i::after {
+  transform: translate3d(22px, 2px, 0);
+}
+
+// IOS SWITCH STOP
+// checkbox
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  /*   top: 0;
+  left: 0; */
+  height: 25px;
+  width: 25px;
+  background-color: #fff;
+  margin-top: -12px;
+  border: 1px solid #a3a3b2;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #fff;
+  border: 1px solid #feea00;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #feea00;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid #000;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.toast-container.toast-top-center .ngx-toastr {
+  width: 600px !important;
+  margin-top: 120px;
+}
+
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #babac0;
 }

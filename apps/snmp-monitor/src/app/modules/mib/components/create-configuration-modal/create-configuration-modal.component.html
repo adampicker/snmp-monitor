@@ -1,0 +1,63 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-header--text">Configuration setup</div>
+  </div>
+  <div class="modal-body">
+    <div class="modal-body__info">
+      <div class="modal-body__info__name">
+        <div class="modal-body__info__name--label">Configuration name</div>
+        <input
+          type="text"
+          placeholder="Type new configuration's name"
+          [value]="configurationName"
+          (input)="configurationName = $event.target.value"
+        />
+      </div>
+      <div class="modal-body__info__default">
+        <div class="modal-body__info__default--label">
+          Default configuration
+        </div>
+        <label class="form-switch">
+          <input
+            type="checkbox"
+            [checked]="asDefault"
+            (change)="asDefault = $event.target.checked"
+          />
+          <i></i>
+        </label>
+      </div>
+    </div>
+    <div *ngIf="selectedMibs" class="modal-body__selected">
+      <div class="modal-body__selected--label">
+        Picked oids: {{ selectedMibs.length }}
+      </div>
+      <div class="modal-body__selected__items">
+        <div
+          *ngFor="let oid of selectedMibs"
+          class="modal-body__selected__items__item"
+        >
+          <span class="modal-body__selected__items__item--oid"
+            >{{ oid.oid }} - </span
+          >{{ oid.description }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="modal-footer__buttons">
+      <div class="modal-footer__buttons--close-wrapper">
+        <button
+          (click)="closeModal()"
+          class="snmp-button snmp-button--secondary"
+        >
+          {{ !selectedMibs ? 'Close' : 'Add more' }}
+        </button>
+      </div>
+      <div class="modal-footer__buttons--next-wrapper">
+        <button (click)="onPickOids()" class="snmp-button snmp-button--primary">
+          {{ !selectedMibs ? 'Pick OIDs to configuration >' : 'Save' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

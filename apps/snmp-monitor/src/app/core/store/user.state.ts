@@ -1,6 +1,7 @@
 import { User } from '../model/user.model';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { UpdateUserData } from './user.action';
+import { Injectable } from '@angular/core';
 
 interface UserState {
   user: User;
@@ -12,6 +13,7 @@ interface UserState {
     user: null
   }
 })
+@Injectable()
 export class UserStore {
   constructor() {}
 

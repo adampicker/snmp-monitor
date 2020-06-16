@@ -1,0 +1,149 @@
+<div class="details-container">
+  <div *ngIf="!isLoading; else loader" class="details-container__info">
+    <div class="details-container__info__main">
+      <div class="details-container__info__main__mac">
+        <div class="details-container__info--label">
+          Client's MAC
+        </div>
+        <div class="details-container__info__main__mac--text">
+          {{ clientsInfo.macAddress }}
+        </div>
+      </div>
+      <div class="details-container__info__main__configuration">
+        <div class="details-container__info--label">
+          Configuration
+        </div>
+        <mat-form-field>
+          <!--     <mat-label>Select an option</mat-label> -->
+          <mat-select
+            placeholder="Change"
+            [(value)]="selectedConfiguration"
+            [compareWith]="compareItems"
+            (selectionChange)="onConfigurationChange($event)"
+          >
+            <mat-option *ngFor="let conf of configurations" [value]="conf">
+              {{ conf.configurationName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="details-container__info__main__button">
+        <button
+          (click)="onResetClick()"
+          class="snmp-button snmp-button--primary"
+        >
+          {{ btnLabel }}
+        </button>
+      </div>
+    </div>
+    <div class="details-container__info__row">
+      <div class="details-container__info__row__col">
+        <div class="details-container__info--label">
+          ID
+        </div>
+        <div class="details-container__info__row__col--text">
+          {{ clientsInfo.id }}
+        </div>
+      </div>
+
+      <div class="details-container__info__row__col">
+        <div class="details-container__info--label">
+          Type
+        </div>
+        <div class="details-container__info__row__col--icon-cell">
+          <i class="desktop"></i>
+          <div class="details-container__info__row__col--text">
+            {{ clientsInfo.type | uppercase }}
+          </div>
+        </div>
+      </div>
+
+      <div class="details-container__info__row__col">
+        <div class="details-container__info--label">
+          PID
+        </div>
+        <div class="details-container__info__row__col--text">
+          {{ clientsInfo.pid }}
+        </div>
+      </div>
+    </div>
+
+    <div class="details-container__info__row">
+      <div class="details-container__info__row__col">
+        <div class="details-container__info--label">
+          Client name
+        </div>
+        <div class="details-container__info__row__col--text">
+          {{ clientsInfo.userName }}
+        </div>
+      </div>
+
+      <div class="details-container__info__row__col">
+        <div class="details-container__info--label">
+          Port
+        </div>
+        <div class="details-container__info__row__col--text">
+          {{ clientsInfo.port }}
+        </div>
+      </div>
+
+      <div class="details-container__info__row__col">
+        <div class="details-container__info--label">
+          Status
+        </div>
+        <div class="details-container__info__row__col--text">
+          <div
+            class="status-box"
+            [ngClass]="{
+              red: clientsInfo.status.includes('ERROR'),
+              green: clientsInfo.status === 'ACTIVE',
+              orange: clientsInfo.status.includes('RESET'),
+              blue: clientsInfo.status.includes('UPDATED')
+            }"
+          >
+            <span class="status-box__text">{{ clientsInfo.status }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #loader>
+    <div class="details-container__loader">
+      <mat-spinner></mat-spinner> // zrobić loader i rozplanowac
+      dashboard-container
+    </div>
+  </ng-template>
+</div>
+
+<div class="container">
+  <div class="container__card-row">
+    <div class="container__card-row__card">
+      <div class="container__card-row__card__card-body">
+        <i class="container__card-row__card__card-body__icon"></i>
+        <div class="container__card-row__card__card-body__name">Name</div>
+        <div class="container__card-row__card__card-body__value">150gb</div>
+      </div>
+      <div class="container__card-row__card__card-footer">
+        <hr />
+        <div class="container__card-row__card__card-footer__show">
+          <div class="container__card-row__card__card-footer__show__text">
+            Show
+          </div>
+          <i
+            class="container__card-row__card__card-footer__show__angle-right"
+          ></i>
+        </div>
+      </div>
+    </div>
+    <div class="container__card-row__card"></div>
+    <div class="container__card-row__card"></div>
+    <div class="container__card-row__card"></div>
+    <div class="container__card-row__card"></div>
+  </div>
+  <div
+    echarts
+    [options]="chartOptions"
+    [merge]="updateOptions"
+    class="dashboard-container"
+  ></div>
+</div>

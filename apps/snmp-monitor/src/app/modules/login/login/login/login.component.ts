@@ -32,6 +32,9 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.authenticationService.test().subscribe(res => {
+      console.log(res);
+    });
     this.authenticationService.signUp().subscribe(res => {});
     this.signInForm = new FormGroup({
       username: new FormControl(this.username, [

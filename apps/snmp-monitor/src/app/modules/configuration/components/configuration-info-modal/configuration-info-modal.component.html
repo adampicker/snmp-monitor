@@ -1,0 +1,78 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-header--text">Configuration edit</div>
+  </div>
+  <div class="modal-body">
+    <div class="modal-body__info">
+      <div class="modal-body__info__name">
+        <div class="modal-body__info__name--label">Configuration name</div>
+        <input
+          type="text"
+          placeholder="Type new configuration's name"
+          [value]="configuration.configurationName"
+          (input)="configuration.configurationName = $event.target.value"
+        />
+      </div>
+      <div class="modal-body__info__default">
+        <div class="modal-body__info__default--label">
+          Default configuration
+        </div>
+        <label class="form-switch">
+          <input
+            type="checkbox"
+            [checked]="configuration.defaultConfiguration"
+            (change)="
+              configuration.defaultConfiguration = $event.target.checked
+            "
+          />
+          <i></i>
+        </label>
+      </div>
+    </div>
+    <div *ngIf="configuration.mib" class="modal-body__selected">
+      <div class="modal-body__selected--label">
+        Mibs in configuration: {{ configurationView.length }}
+      </div>
+      <div class="modal-body__selected__items">
+        <div
+          *ngFor="let item of configurationView"
+          class="modal-body__selected__items__item"
+        >
+          <div class="checkbox-container">
+            <label class="container">
+              <input
+                type="checkbox"
+                [checked]="item.checked"
+                (change)="item.checked = $event.target.checked"
+              />
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="modal-body__selected__items__item--oid">
+            {{ item.mib.oid }}
+          </div>
+          <div class="modal-body__selected__items__item--description">
+            {{ item.mib.description }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="modal-footer__buttons">
+      <div class="modal-footer__buttons--close-wrapper">
+        <button
+          (click)="closeModal()"
+          class="snmp-button snmp-button--secondary"
+        >
+          Close
+        </button>
+      </div>
+      <div class="modal-footer__buttons--next-wrapper">
+        <button (click)="onSave()" class="snmp-button snmp-button--primary">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

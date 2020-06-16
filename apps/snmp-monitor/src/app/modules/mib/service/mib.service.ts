@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Mib } from '../../../shared/model/snmp.model';
 import { Observable, of } from 'rxjs';
+import { ConfigurationSave } from '../model/configuration.model';
 
 const sampleMibs: Mib[] = [
   {
@@ -166,10 +167,26 @@ const sampleMibs: Mib[] = [
   providedIn: 'root'
 })
 export class MibService {
+  readonly headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    accept: '*/*',
+    'Acces-Control-Allow-Origin': '*'
+  });
   constructor(private http: HttpClient) {}
 
   getAllMibs(): Observable<Mib[]> {
-    return of(sampleMibs);
-    //return this.http.get<Mib[]>('http://localhost:8080/users/get-mibs');
+    //return of(sampleMibs);
+    return this.http.get<Mib[]>('http://localhost:8080/users/get-mibs');
+  }
+
+  saveConfiguration(configurationToSave: ConfigurationSave): Observable<any> {
+    const httpOptions = {
+      headers: this.headers
+    };
+    return this.http.post<any>(
+      `http://localhost:8080/users/add-configuration`,
+      configurationToSave,
+      httpOptions
+    );
   }
 }

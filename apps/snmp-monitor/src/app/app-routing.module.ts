@@ -35,6 +35,14 @@ export const routes: Routes = [
     component: PageLayoutComponent,
     loadChildren: () =>
       import('./modules/mib/mib.module').then(m => m.MibModule)
+  },
+  {
+    path: 'configuration',
+    component: PageLayoutComponent,
+    loadChildren: () =>
+      import('./modules/configuration/configuration.module').then(
+        m => m.ConfigurationModule
+      )
   }
 ];
 
