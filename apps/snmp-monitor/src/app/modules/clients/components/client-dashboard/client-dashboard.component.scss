@@ -1,0 +1,101 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: 900px;
+  margin: 5% auto auto auto;
+  background-color: #f4f3ef;
+  &__card-row {
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 160px;
+    &__card {
+      border-radius: 12px;
+      box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
+      background-color: #fff;
+      color: #252422;
+      margin-bottom: 20px;
+      position: relative;
+      border: 0;
+      width: 260px;
+      height: 150px;
+      &__card-body {
+        padding: 15px 15px 0;
+        display: flex;
+        flex-direction: column;
+        height: 65px;
+        &__icon {
+          content: url('apps/snmp-monitor/src/assets/images/atom.svg');
+          height: 45px;
+          width: 45px;
+          margin-top: 18px;
+        }
+        &__name {
+          color: #9a9a9a;
+          font-size: 16px;
+          line-height: 1.4em;
+          text-align: right;
+          margin: -54px 10px 0 auto;
+          height: fit-content;
+          width: fit-content;
+        }
+        &__value {
+          color: #252422;
+          font-size: 2em;
+          height: fit-content;
+          width: fit-content;
+          margin: 15px 10px 0 auto;
+        }
+      }
+      &__card-footer {
+        padding: 15px 15px 0;
+        &__show {
+          display: flex;
+          flex-direction: row;
+          margin-right: 10px;
+          margin-left: auto;
+          width: fit-content;
+          cursor: pointer;
+          &__text {
+            color: #9a9a9a;
+            font-size: 16px;
+            line-height: 1.4em;
+            align-self: flex-end;
+            margin-right: 15px;
+          }
+          &__angle-right {
+            content: url('apps/snmp-monitor/src/assets/images/angle.svg');
+            width: 17px;
+          }
+        }
+      }
+      &__text {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.demo-chart {
+  z-index: 100;
+}
+.dashboard-container {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  height: 450px;
+  background-color: #fff;
+  margin: 32px auto auto auto;
+  box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
+}
+
+/* <a href="https://iconscout.com/icons/social" target="_blank">Atom Logo Icon</a> by <a href="https://iconscout.com/contributors/pocike" target="_blank">Alpár - Etele Méder</a>
+  
+  <a href="https://iconscout.com/icons/right-arrow" target="_blank">Right Arrow Icon</a> by <a href="https://iconscout.com/contributors/unicons">Unicons Font</a> on <a href="https://iconscout.com">Iconscout</a>
+  
+  
+  */

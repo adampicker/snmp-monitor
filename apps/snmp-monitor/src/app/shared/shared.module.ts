@@ -8,11 +8,17 @@ import { SpinnerComponent } from './ui/spinner/spinner.component';
 import { MenuLeftComponent } from './components/menu-left/menu-left.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CreateConfigurationModalComponent } from '../modules/mib/components/create-configuration-modal/create-configuration-modal.component';
+import { LengthPipe } from './pipes/length.pipe';
 
 @NgModule({
-  declarations: [SpinnerComponent, MenuLeftComponent, MenuTopComponent],
+  declarations: [
+    SpinnerComponent,
+    MenuLeftComponent,
+    MenuTopComponent,
+    LengthPipe
+  ],
   imports: [CommonModule, SharedRoutingModule],
-  exports: [SpinnerComponent, MenuTopComponent, MenuLeftComponent],
+  exports: [SpinnerComponent, MenuTopComponent, MenuLeftComponent, LengthPipe],
   entryComponents: [CreateConfigurationModalComponent]
 })
 export class SharedModule {}

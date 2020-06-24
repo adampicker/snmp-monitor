@@ -115,35 +115,7 @@
   </ng-template>
 </div>
 
-<div class="container">
-  <div class="container__card-row">
-    <div class="container__card-row__card">
-      <div class="container__card-row__card__card-body">
-        <i class="container__card-row__card__card-body__icon"></i>
-        <div class="container__card-row__card__card-body__name">Name</div>
-        <div class="container__card-row__card__card-body__value">150gb</div>
-      </div>
-      <div class="container__card-row__card__card-footer">
-        <hr />
-        <div class="container__card-row__card__card-footer__show">
-          <div class="container__card-row__card__card-footer__show__text">
-            Show
-          </div>
-          <i
-            class="container__card-row__card__card-footer__show__angle-right"
-          ></i>
-        </div>
-      </div>
-    </div>
-    <div class="container__card-row__card"></div>
-    <div class="container__card-row__card"></div>
-    <div class="container__card-row__card"></div>
-    <div class="container__card-row__card"></div>
-  </div>
-  <div
-    echarts
-    [options]="chartOptions"
-    [merge]="updateOptions"
-    class="dashboard-container"
-  ></div>
-</div>
+<snmp-monitor-client-dashboard
+  *ngIf="clientsInfo"
+  [client]="clientsInfo"
+></snmp-monitor-client-dashboard>

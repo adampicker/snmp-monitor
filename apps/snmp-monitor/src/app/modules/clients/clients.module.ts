@@ -12,12 +12,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { SharedModule } from '../../shared/shared.module';
+import { ClientDashboardComponent } from './components/client-dashboard/client-dashboard.component';
 
 @NgModule({
   declarations: [
     ClientsListComponent,
     ClientsListHeaderComponent,
-    ClientDetailsComponent
+    ClientDetailsComponent,
+    ClientDashboardComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +33,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     MatOptionModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxEchartsModule
+    NgxEchartsModule,
+    SharedModule
   ]
 })
 export class ClientsModule {}

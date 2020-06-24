@@ -25,14 +25,14 @@ export class ClientDataService {
         this._data.push(data.values);
         if (!this.initialLoadDone) this.previousData.next(data.values);
         this.initialLoadDone = true;
-        console.log('prev');
+        //console.log('prev');
       } else if (
         this.oidToFetch &&
         this.oidToFetch.length > 0 &&
         this.initialLoadDone
       ) {
         data.values.forEach(el => {
-          console.log(el);
+          //console.log(el);
           if (el.oid === this.oidToFetch) {
             this.currentData.next(el);
           }

@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="container__card-row">
+    <div
+      *ngFor="let mib of mibsCards | slice: 0:4"
+      class="container__card-row__card"
+    >
+      <div class="container__card-row__card__card-body">
+        <i class="container__card-row__card__card-body__icon"></i>
+        <div class="container__card-row__card__card-body__name">
+          {{ mib.description | titlecase | length: 26:'...' }}
+        </div>
+        <div class="container__card-row__card__card-body__value">150gb</div>
+      </div>
+      <div class="container__card-row__card__card-footer">
+        <hr />
+        <div class="container__card-row__card__card-footer__show">
+          <div class="container__card-row__card__card-footer__show__text">
+            Show
+          </div>
+          <i
+            class="container__card-row__card__card-footer__show__angle-right"
+          ></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      echarts
+      [options]="chartOptions"
+      [merge]="updateOptions"
+      class="dashboard-container"
+    ></div>
+  </div>
+  <div class="container__card-row">
+    <div
+      *ngFor="let mib of mibsCards | slice: 4:mibsCards.length - 1"
+      class="container__card-row__card"
+    >
+      <div class="container__card-row__card__card-body">
+        <i class="container__card-row__card__card-body__icon"></i>
+        <div class="container__card-row__card__card-body__name">
+          {{ mib.description }}
+        </div>
+        <div class="container__card-row__card__card-body__value">150gb</div>
+      </div>
+      <div class="container__card-row__card__card-footer">
+        <hr />
+        <div class="container__card-row__card__card-footer__show">
+          <div class="container__card-row__card__card-footer__show__text">
+            Show
+          </div>
+          <i
+            class="container__card-row__card__card-footer__show__angle-right"
+          ></i>
+        </div>
+      </div>
+    </div>
+    <!--     <div class="container__card-row__card"></div>
+      <div class="container__card-row__card"></div>
+      <div class="container__card-row__card"></div>
+      <div class="container__card-row__card"></div> -->
+  </div>
+</div>

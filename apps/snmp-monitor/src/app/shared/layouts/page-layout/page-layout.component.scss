@@ -6,7 +6,7 @@
   top: 72px;
   z-index: 30;
   overflow-y: auto;
-  box-shadow: 10px 0 10px -5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
   overflow-x: hidden;
 }
 
@@ -15,7 +15,9 @@
   margin-top: 65px;
   position: absolute;
   width: calc(100% - 80px);
-  background-color: #f2f2f2;
+  height: 100%;
+  //background-color: #f2f2f2;
+  background-color: #f4f3ef;
 }
 
 .expanded {
