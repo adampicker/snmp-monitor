@@ -1,9 +1,8 @@
-/* export interface UpdateModalPayload {
-    modalName: string;
-    value: {};
-  } */
+export interface OpenStreamPayload {
+  clientId: number;
+}
 
 export class OpenDataStream {
   static readonly type = '[Data] Open Data stream';
-  constructor() {}
+  constructor(public payload: OpenStreamPayload) {}
 }

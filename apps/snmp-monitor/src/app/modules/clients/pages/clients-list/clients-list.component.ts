@@ -17,9 +17,6 @@ import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dia
 import { Store, Select } from '@ngxs/store';
 import { DataStore } from 'apps/snmp-monitor/src/app/core/store/data.state';
 import { Observable, Subject } from 'rxjs';
-import { Value } from 'apps/snmp-monitor/src/app/core/model/data. model';
-import { OpenDataStream } from 'apps/snmp-monitor/src/app/core/store/data.action';
-import { takeUntil, map } from 'rxjs/operators';
 
 @Component({
   selector: 'snmp-monitor-clients-list',

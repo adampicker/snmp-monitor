@@ -49,11 +49,13 @@ export class AuthenticationService {
       )
       .pipe(
         tap(res => {
+          console.log(res);
           if (res.ok && res.headers.get('Authorization')) {
             this.currentUserSubject.next({
               username: username,
               token: res.headers.get('Authorization')
             });
+            console.log('nie ma ');
             sessionStorage.setItem('token', res.headers.get('Authorization'));
           }
         })
@@ -71,17 +73,10 @@ export class AuthenticationService {
     );
   }
 
-  signUp() {
+  signUp(username: string, password: string) {
     return this.http.post<any>('http://localhost:8080/users/sign-up', {
-      username: 'adam1',
-      password: 'adam'
+      username: username,
+      password: password
     });
-  }
-
-  test() {
-    return this.http.get<any>(
-      `https://suprasl.logintrade.net/rejestracja/ustawowe.html`,
-      { observe: 'response' }
-    );
   }
 }

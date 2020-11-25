@@ -682,7 +682,7 @@ export const first_row = {
     {
       timestamp: '2020-05-27T16:24:39.404214Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.11.53.0',
+      oid: '.1.3.6.1.4.1.2021.11.53.0',
       value: '3243583',
       unwrappingSerializer: false,
       delegatee: null
@@ -690,7 +690,7 @@ export const first_row = {
     {
       timestamp: '2020-05-27T16:24:39.404214Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.1',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.1',
       value: '2.30',
       unwrappingSerializer: false,
       delegatee: null
@@ -698,7 +698,7 @@ export const first_row = {
     {
       timestamp: '2020-05-27T16:24:39.404214Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.2',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.2',
       value: '1.94',
       unwrappingSerializer: false,
       delegatee: null
@@ -706,7 +706,7 @@ export const first_row = {
     {
       timestamp: '2020-05-27T16:24:39.404214Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.3',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.3',
       value: '1.58',
       unwrappingSerializer: false,
       delegatee: null
@@ -721,7 +721,7 @@ export const second_row = {
     {
       timestamp: '2020-05-27T16:24:45.922374Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.11.53.0',
+      oid: '.1.3.6.1.4.1.2021.11.53.0',
       value: '3246396',
       unwrappingSerializer: false,
       delegatee: null
@@ -729,7 +729,7 @@ export const second_row = {
     {
       timestamp: '2020-05-27T16:24:45.922374Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.1',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.1',
       value: '2.20',
       unwrappingSerializer: false,
       delegatee: null
@@ -737,7 +737,7 @@ export const second_row = {
     {
       timestamp: '2020-05-27T16:24:45.922374Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.2',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.2',
       value: '1.92',
       unwrappingSerializer: false,
       delegatee: null
@@ -745,7 +745,7 @@ export const second_row = {
     {
       timestamp: '2020-05-27T16:24:45.922374Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.3',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.3',
       value: '1.58',
       unwrappingSerializer: false,
       delegatee: null
@@ -760,7 +760,7 @@ export const third_row = {
     {
       timestamp: '2020-05-27T16:24:54.254448Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.11.53.0',
+      oid: '.1.3.6.1.4.1.2021.11.53.0',
       value: '3252960',
       unwrappingSerializer: false,
       delegatee: null
@@ -768,7 +768,7 @@ export const third_row = {
     {
       timestamp: '2020-05-27T16:24:54.254448Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.1',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.1',
       value: '2.40',
       unwrappingSerializer: false,
       delegatee: null
@@ -776,7 +776,7 @@ export const third_row = {
     {
       timestamp: '2020-05-27T16:24:54.254448Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.2',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.2',
       value: '1.98',
       unwrappingSerializer: false,
       delegatee: null
@@ -784,7 +784,7 @@ export const third_row = {
     {
       timestamp: '2020-05-27T16:24:54.254448Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.3',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.3',
       value: '1.60',
       unwrappingSerializer: false,
       delegatee: null
@@ -799,7 +799,7 @@ export const fourth_row = {
     {
       timestamp: '2020-05-27T16:25:03.466081Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.11.53.0',
+      oid: '.1.3.6.1.4.1.2021.11.53.0',
       value: '3259559',
       unwrappingSerializer: false,
       delegatee: null
@@ -807,7 +807,7 @@ export const fourth_row = {
     {
       timestamp: '2020-05-27T16:25:03.466081Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.1',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.1',
       value: '2.11',
       unwrappingSerializer: false,
       delegatee: null
@@ -815,7 +815,7 @@ export const fourth_row = {
     {
       timestamp: '2020-05-27T16:25:03.466081Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.2',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.2',
       value: '1.93',
       unwrappingSerializer: false,
       delegatee: null
@@ -823,7 +823,7 @@ export const fourth_row = {
     {
       timestamp: '2020-05-27T16:25:03.466081Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.3',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.3',
       value: '1.59',
       unwrappingSerializer: false,
       delegatee: null
@@ -838,7 +838,7 @@ export const fifth_row = {
     {
       timestamp: '2020-05-27T16:25:11.659992Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.11.53.0',
+      oid: '.1.3.6.1.4.1.2021.11.53.0',
       value: '3262910',
       unwrappingSerializer: false,
       delegatee: null
@@ -846,7 +846,7 @@ export const fifth_row = {
     {
       timestamp: '2020-05-27T16:25:11.659992Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.1',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.1',
       value: '1.94',
       unwrappingSerializer: false,
       delegatee: null
@@ -854,7 +854,7 @@ export const fifth_row = {
     {
       timestamp: '2020-05-27T16:25:11.659992Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.2',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.2',
       value: '1.90',
       unwrappingSerializer: false,
       delegatee: null
@@ -862,7 +862,7 @@ export const fifth_row = {
     {
       timestamp: '2020-05-27T16:25:11.659992Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.3',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.3',
       value: '1.58',
       unwrappingSerializer: false,
       delegatee: null
@@ -877,7 +877,7 @@ export const sixth_row = {
     {
       timestamp: '2020-05-27T16:25:17.945149Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.11.53.0',
+      oid: '.1.3.6.1.4.1.2021.11.53.0',
       value: '3269336',
       unwrappingSerializer: false,
       delegatee: null
@@ -885,7 +885,7 @@ export const sixth_row = {
     {
       timestamp: '2020-05-27T16:25:17.945149Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.1',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.1',
       value: '1.87',
       unwrappingSerializer: false,
       delegatee: null
@@ -893,7 +893,7 @@ export const sixth_row = {
     {
       timestamp: '2020-05-27T16:25:17.945149Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.2',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.2',
       value: '1.88',
       unwrappingSerializer: false,
       delegatee: null
@@ -901,7 +901,7 @@ export const sixth_row = {
     {
       timestamp: '2020-05-27T16:25:17.945149Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.3',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.3',
       value: '1.58',
       unwrappingSerializer: false,
       delegatee: null
@@ -916,7 +916,7 @@ export const seventh_row = {
     {
       timestamp: '2020-05-27T16:25:17.945149Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.11.53.0',
+      oid: '.1.3.6.1.4.1.2021.11.53.0',
       value: '3269336',
       unwrappingSerializer: false,
       delegatee: null
@@ -924,7 +924,7 @@ export const seventh_row = {
     {
       timestamp: '2020-05-27T16:25:17.945149Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.1',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.1',
       value: '1.87',
       unwrappingSerializer: false,
       delegatee: null
@@ -932,7 +932,7 @@ export const seventh_row = {
     {
       timestamp: '2020-05-27T16:25:17.945149Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.2',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.2',
       value: '1.88',
       unwrappingSerializer: false,
       delegatee: null
@@ -940,7 +940,7 @@ export const seventh_row = {
     {
       timestamp: '2020-05-27T16:25:17.945149Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.3',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.3',
       value: '1.58',
       unwrappingSerializer: false,
       delegatee: null
@@ -955,7 +955,7 @@ export const eighth_row = {
     {
       timestamp: '2020-05-27T16:25:24.086974Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.11.53.0',
+      oid: '.1.3.6.1.4.1.2021.11.53.0',
       value: '3272578',
       unwrappingSerializer: false,
       delegatee: null
@@ -963,7 +963,7 @@ export const eighth_row = {
     {
       timestamp: '2020-05-27T16:25:24.086974Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.1',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.1',
       value: '1.88',
       unwrappingSerializer: false,
       delegatee: null
@@ -971,7 +971,7 @@ export const eighth_row = {
     {
       timestamp: '2020-05-27T16:25:24.086974Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.2',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.2',
       value: '1.88',
       unwrappingSerializer: false,
       delegatee: null
@@ -979,7 +979,7 @@ export const eighth_row = {
     {
       timestamp: '2020-05-27T16:25:24.086974Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.3',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.3',
       value: '1.58',
       unwrappingSerializer: false,
       delegatee: null
@@ -994,7 +994,7 @@ export const ninth_row = {
     {
       timestamp: '2020-05-27T16:25:30.784624Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.11.53.0',
+      oid: '.1.3.6.1.4.1.2021.11.53.0',
       value: '3275714',
       unwrappingSerializer: false,
       delegatee: null
@@ -1002,7 +1002,7 @@ export const ninth_row = {
     {
       timestamp: '2020-05-27T16:25:30.784624Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.1',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.1',
       value: '1.73',
       unwrappingSerializer: false,
       delegatee: null
@@ -1010,7 +1010,7 @@ export const ninth_row = {
     {
       timestamp: '2020-05-27T16:25:30.784624Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.2',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.2',
       value: '1.85',
       unwrappingSerializer: false,
       delegatee: null
@@ -1018,7 +1018,7 @@ export const ninth_row = {
     {
       timestamp: '2020-05-27T16:25:30.784624Z',
       clientId: 1,
-      oid: '1.3.6.1.4.1.2021.10.1.3.3',
+      oid: '.1.3.6.1.4.1.2021.10.1.3.3',
       value: '1.57',
       unwrappingSerializer: false,
       delegatee: null

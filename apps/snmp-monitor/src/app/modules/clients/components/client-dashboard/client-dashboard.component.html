@@ -9,12 +9,17 @@
         <div class="container__card-row__card__card-body__name">
           {{ mib.description | titlecase | length: 26:'...' }}
         </div>
-        <div class="container__card-row__card__card-body__value">150gb</div>
+        <div class="container__card-row__card__card-body__value">
+          {{ mibCardsValues[mib.oid] }}
+        </div>
       </div>
       <div class="container__card-row__card__card-footer">
         <hr />
         <div class="container__card-row__card__card-footer__show">
-          <div class="container__card-row__card__card-footer__show__text">
+          <div
+            (click)="onShowOnChart(mib)"
+            class="container__card-row__card__card-footer__show__text"
+          >
             Show
           </div>
           <i
@@ -42,7 +47,9 @@
         <div class="container__card-row__card__card-body__name">
           {{ mib.description }}
         </div>
-        <div class="container__card-row__card__card-body__value">150gb</div>
+        <div class="container__card-row__card__card-body__value">
+          {{ mibCardsValues[mib.oid] }}
+        </div>
       </div>
       <div class="container__card-row__card__card-footer">
         <hr />

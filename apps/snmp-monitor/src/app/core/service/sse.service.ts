@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, of, timer } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 import {
   initialLoad,
   first_row,
@@ -13,28 +14,32 @@ import {
   eighth_row,
   ninth_row
 } from './sample-data-load';
-
+import { AuthenticationService } from '../auth/authentication.service';
 @Injectable({
   providedIn: 'root'
 })
 export class SseService {
   readonly headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    accept: '*/*',
-    'Acces-Control-Allow-Origin': '*'
+    // 'Content-Type': 'application/json',
+    // accept: '*/*',
+    // 'Acces-Control-Allow-Origin': '*'
   });
 
   SAMPLE_LIVE_DATA: { [key: string]: { values: any[] } } = {};
 
-  constructor(private _zone: NgZone) {}
+  constructor(
+    private _zone: NgZone,
+    private authenticationService: AuthenticationService
+  ) {}
 
   getServerSentEvent(url: string): Observable<any> {
     const httpOptions = {
       headers: this.headers
     };
 
-    return Observable.create(observer => {
+    return new Observable(observer => {
       const eventSource = this.getEventSource(url);
+      console.log('openning event source');
       eventSource.onmessage = event => {
         this._zone.run(() => {
           observer.next(JSON.parse(event.data));
@@ -42,13 +47,21 @@ export class SseService {
       };
       eventSource.onerror = error => {
         this._zone.run(() => {
-          observer.error(error);
+          console.log('have error');
+          console.log(error);
+          //observer.error(error);
         });
       };
     });
   }
-  private getEventSource(url: string): EventSource {
-    return new EventSource(url);
+  private getEventSource(url: string): EventSourcePolyfill {
+    return new EventSourcePolyfill(url, {
+      headers: {
+        Authorization: `Bearer ${
+          this.authenticationService.getCurrentUserValue().token
+        }`
+      }
+    });
   }
 
   public getSampleServerSentEvent(url: string) {

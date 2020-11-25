@@ -9,17 +9,25 @@ import { ActivatedRoute } from '@angular/router';
 import { ClientsApiService } from '../../service/clients-api.service';
 import { Client, Mib } from 'apps/snmp-monitor/src/app/shared/model/snmp.model';
 import { ConfigurationStore } from '../../../configuration/store/configuration.state';
-import { Observable, Subject, forkJoin, VirtualTimeScheduler } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  forkJoin,
+  VirtualTimeScheduler,
+  merge
+} from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { takeUntil } from 'rxjs/operators';
 import { ConfigurationService } from '../../../configuration/service/configuration.service';
 import { Configuration } from '../../../configuration/model/configuration.model';
 import { EChartOption } from 'echarts';
 import { DataStore } from 'apps/snmp-monitor/src/app/core/store/data.state';
-import { Value } from 'apps/snmp-monitor/src/app/core/model/data. model';
 import { OpenDataStream } from 'apps/snmp-monitor/src/app/core/store/data.action';
 import { ClientDataService } from '../../service/client-data.service';
-import { DataValues } from '../../model/data.model';
+import {
+  DataStream,
+  DataValues
+} from 'apps/snmp-monitor/src/app/core/model/data.model';
 
 interface ChartData {
   name: number;
@@ -34,6 +42,7 @@ interface ChartData {
 export class ClientDashboardComponent implements OnInit {
   @Input() client: Client;
   chartData: ChartData[] = [];
+  allData = [];
   updateOptions: any;
   chartOptions: any;
 
@@ -42,118 +51,34 @@ export class ClientDashboardComponent implements OnInit {
   private value: number;
 
   @Select(DataStore.getData)
-  data$: Observable<Value[]>;
+  data$: Observable<DataValues[]>;
 
   initialLoadDone$: Subject<boolean> = new Subject<boolean>();
 
   mibsCards: Mib[] = [];
+  mibCardsValues: { [key: string]: string } = {};
+  public mibToFetch: Mib = null;
+
   destroy$ = new Subject<boolean>();
+  changeMib$ = new Subject<boolean>();
+
+  cardsValues: { [key: string]: string } = {};
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private clientApiService: ClientsApiService,
-    private configurationService: ConfigurationService,
+    private clientsApiService: ClientsApiService,
     private store: Store,
     private clientDataService: ClientDataService
   ) {}
 
   ngOnInit(): void {
     //this.getClient();
+    console.log(this.client);
     this.now = new Date(2020, 5, 27, 0, 0, 0, 0);
     this.value = Math.random() * 1000;
-    this.clientDataService.oidToFetch = '1.3.6.1.4.1.2021.11.53.0';
-    this.clientDataService.startStreaming();
-    this.clientDataService.previousData
-      .pipe(takeUntil(this.initialLoadDone$))
-      .subscribe((data: DataValues[]) => {
-        if (data) {
-          console.log('dat');
-          this.chartData = data
-            .filter(val => val.oid === '.' + this.clientDataService.oidToFetch)
-            .map(
-              val =>
-                <ChartData>{
-                  name: new Date(val.timestamp).getTime(),
-                  value: [
-                    new Date(val.timestamp).getTime(),
-                    parseFloat(val.value)
-                  ]
-                }
-            );
-          this.initialLoadDone$.next();
-          this.initialLoadDone$.unsubscribe();
-          this.loadConfigurationMibs();
-          this.chartOptions = {
-            title: {
-              text: 'Dynamic Data + Time Axis'
-            },
-            tooltip: {
-              trigger: 'axis',
-              formatter: params => {
-                params = params[0];
-                const date = new Date(params.name);
-                return (
-                  date.getDate() +
-                  '/' +
-                  (date.getMonth() + 1) +
-                  '/' +
-                  date.getFullYear() +
-                  ' ' +
-                  date.getHours() +
-                  ':' +
-                  date.getMinutes() +
-                  ':' +
-                  date.getSeconds() +
-                  ' : ' +
-                  params.value[1]
-                );
-              },
-              axisPointer: {
-                animation: false
-              }
-            },
-            xAxis: {
-              type: 'time',
-              splitLine: {
-                show: false
-              }
-            },
-            yAxis: {
-              type: 'value',
-              boundaryGap: ['20%', '20%'],
-              splitLine: {
-                show: false
-              },
-              scale: true
-            },
-            series: [
-              {
-                name: 'Mocking Data',
-                type: 'line',
-                showSymbol: false,
-                hoverAnimation: false,
-                data: this.chartData
-              }
-            ]
-          };
-        }
-        this.clientDataService.currentData
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((cur: DataValues) => {
-            console.log('x');
-            this.chartData.push({
-              name: new Date(cur.timestamp).getTime(),
-              value: [new Date(cur.timestamp).getTime(), parseFloat(cur.value)]
-            });
-            this.updateOptions = {
-              series: [
-                {
-                  data: this.chartData
-                }
-              ]
-            };
-          });
-      });
+    this.loadConfigurationMibs();
+    //this.store.dispatch(new OpenDataStream({ clientId: this.client.id }));
+    //this.clientDataService.startStreaming();
+
     //this.handleValuesStream();
 
     /* this.timer = setInterval(() => {
@@ -183,25 +108,6 @@ export class ClientDashboardComponent implements OnInit {
     return i1 && i2 && i1.id === i2.id;
   }
 
-  private handleValuesStream() {
-    this.clientApiService
-      .getValuesStream() //temp id
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(data => {
-        if (data && data.values) {
-          let newVal = data.values.find(
-            val => val.oid === '1.3.6.1.4.1.2021.11.53.0'
-          );
-          if (!newVal) return;
-          this.updateData([
-            new Date(newVal.timestamp).getTime(),
-            parseFloat(newVal.value)
-          ]);
-          this.updateChart();
-        }
-      });
-  }
-
   randomData() {
     this.now = new Date(this.now.getTime() + 24 * 3600 * 1000);
     this.now.setHours(12);
@@ -213,11 +119,10 @@ export class ClientDashboardComponent implements OnInit {
   }
 
   private updateData(values: number[]) {
-    console.log(values);
     this.chartData.push({ name: values[0], value: [values[0], values[1]] });
   }
 
-  private updateChart() {
+  private refreshChart() {
     this.updateOptions = {
       series: [
         {
@@ -228,10 +133,135 @@ export class ClientDashboardComponent implements OnInit {
   }
 
   private loadConfigurationMibs() {
-    this.clientApiService
+    this.clientsApiService
       .getClientMibs(this.client.configuration)
       .subscribe((res: Mib[]) => {
-        if (res && Array.isArray(res)) this.mibsCards = res;
+        if (res && Array.isArray(res)) {
+          this.mibsCards = res;
+          this.createMibCardsValues(res);
+          this.mibToFetch = this.mibsCards[0];
+          this.startDataStream();
+        }
       });
+  }
+
+  onShowOnChart(mib: Mib) {
+    this.mibToFetch = this.mibsCards.find(m => m.oid === mib.oid);
+    this.chartData = this.allData.filter(
+      value => value.oid === this.mibToFetch.oid
+    );
+    console.log('after flters');
+    console.log(this.chartData);
+    this.refreshChart();
+  }
+
+  startDataStream() {
+    let initialLoadDone = false;
+    this.clientsApiService
+      .getValuesStream(1) //temmp id)
+      .subscribe((data: DataStream) => {
+        if (data.values) {
+          if (data.values.length === 0) return;
+          else if (!initialLoadDone) {
+            this.allData = data.values;
+            this.initChart(
+              data.values.filter(value => value.oid === this.mibToFetch.oid)
+            );
+            initialLoadDone = true;
+          } else {
+            this.allData.push(data.values);
+            this.updateChart(
+              data.values.filter(value => value.oid === this.mibToFetch.oid)
+            );
+          }
+        }
+      });
+  }
+
+  updateChart(values: DataValues[]) {
+    console.log('cur');
+    values.forEach(val => {
+      this.chartData.push({
+        name: new Date(val.timestamp).getTime(),
+        value: [new Date(val.timestamp).getTime(), parseFloat(val.value)]
+      });
+    });
+    this.refreshChart();
+  }
+  // TODO
+  // NIE DZIAŁA DRUGI RAZ OTWARTY STREAM
+  // NIE DZIAŁA ZMIANA MIB'A
+  private initChart(data: DataValues[]) {
+    console.log(data);
+    if (data) {
+      this.chartData = data
+        //  .filter(val => val.oid === '.' + this.clientDataService.oidToFetch)
+        .map(
+          val =>
+            <ChartData>{
+              name: new Date(val.timestamp).getTime(),
+              value: [new Date(val.timestamp).getTime(), parseFloat(val.value)]
+            }
+        );
+      this.chartOptions = {
+        title: {
+          text: this.mibToFetch.description
+        },
+        tooltip: {
+          trigger: 'axis',
+          formatter: params => {
+            params = params[0];
+            const date = new Date(params.name);
+            return (
+              date.getDate() +
+              '/' +
+              (date.getMonth() + 1) +
+              '/' +
+              date.getFullYear() +
+              ' ' +
+              date.getHours() +
+              ':' +
+              date.getMinutes() +
+              ':' +
+              date.getSeconds() +
+              ' : ' +
+              params.value[1]
+            );
+          },
+          axisPointer: {
+            animation: false
+          }
+        },
+        xAxis: {
+          type: 'time',
+          splitLine: {
+            show: false
+          }
+        },
+        yAxis: {
+          type: 'value',
+          boundaryGap: ['20%', '20%'],
+          splitLine: {
+            show: false
+          },
+          scale: true
+        },
+        series: [
+          {
+            name: 'Mocking Data',
+            type: 'line',
+            showSymbol: false,
+            hoverAnimation: false,
+            data: this.chartData
+          }
+        ]
+      };
+    }
+  }
+  createMibCardsValues(mibs: Mib[]) {
+    mibs.forEach((m: Mib) => {
+      this.cardsValues[m.oid] = 'Unavailable';
+    });
+    console.log(this.cardsValues);
   }
 }

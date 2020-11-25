@@ -32,10 +32,6 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.authenticationService.test().subscribe(res => {
-      console.log(res);
-    });
-    this.authenticationService.signUp().subscribe(res => {});
     this.signInForm = new FormGroup({
       username: new FormControl(this.username, [
         Validators.required,
@@ -55,19 +51,27 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.username = this.signInForm.controls['username'].value;
     this.password = this.signInForm.controls['password'].value;
-    this.authenticationService.login(this.username, this.password).subscribe(
-      (res: HttpResponse<any>) => {
-        if (res.status === 200 && res.headers.get('Authorization')) {
-          this.router.navigate(['/dashboard']);
-        } else {
-        }
-      },
-      err => {
-        (this.signInForm.controls.password as FormControl).setValue('');
-        this.signInForm.markAsUntouched();
-        this.isLoading = false;
-        this.submitted = false;
-      }
-    );
+    this.authenticationService
+      .signUp(this.username, this.password)
+      .subscribe(response => {
+        console.log(response);
+        this.authenticationService
+          .login(this.username, this.password)
+          .subscribe(
+            (res: HttpResponse<any>) => {
+              console.log(res);
+              if (res.status === 200 && res.headers.get('Authorization')) {
+                this.router.navigate(['/dashboard']);
+              } else {
+              }
+            },
+            err => {
+              (this.signInForm.controls.password as FormControl).setValue('');
+              this.signInForm.markAsUntouched();
+              this.isLoading = false;
+              this.submitted = false;
+            }
+          );
+      });
   }
 }

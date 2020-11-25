@@ -10,10 +10,7 @@ import { ConfigurationService } from '../../../configuration/service/configurati
 import { Configuration } from '../../../configuration/model/configuration.model';
 import { EChartOption } from 'echarts';
 import { DataStore } from 'apps/snmp-monitor/src/app/core/store/data.state';
-import { Value } from 'apps/snmp-monitor/src/app/core/model/data. model';
-import { OpenDataStream } from 'apps/snmp-monitor/src/app/core/store/data.action';
 import { ClientDataService } from '../../service/client-data.service';
-import { DataValues } from '../../model/data.model';
 
 @Component({
   selector: 'snmp-monitor-client-details',

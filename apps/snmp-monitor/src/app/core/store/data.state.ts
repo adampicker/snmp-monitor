@@ -1,9 +1,9 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { UpdateModalState } from './modal.action';
 import { Injectable } from '@angular/core';
-import { OpenDataStream } from './data.action';
+import { OpenDataStream, OpenStreamPayload } from './data.action';
 import { SseService } from '../service/sse.service';
-import { Value } from '../model/data. model';
+import { DataValues, DataStream } from '../model/data.model';
 import {
   patch,
   append,
@@ -11,9 +11,11 @@ import {
   insertItem,
   updateItem
 } from '@ngxs/store/operators';
+import produce from 'immer';
+import { ClientsApiService } from '../../modules/clients/service/clients-api.service';
 
 interface DataState {
-  data: Value[];
+  data: DataValues[];
 }
 
 @State<DataState>({
@@ -24,7 +26,10 @@ interface DataState {
 })
 @Injectable()
 export class DataStore {
-  constructor(private sseService: SseService) {}
+  constructor(
+    private sseService: SseService,
+    private clientsApiService: ClientsApiService
+  ) {}
 
   @Selector()
   static getClientsData(clientId: number) {
@@ -42,11 +47,26 @@ export class DataStore {
   }
 
   @Action(OpenDataStream)
-  openDataStream({ patchState }: StateContext<DataState>) {
-    this.sseService
-      .getSampleServerSentEvent('http://localhost:8080/users/data-stream')
-      .subscribe(data => {
-        if (data && data.values) patchState({ data: data.values });
+  openDataStream(ctx: StateContext<DataState>, { payload }: OpenDataStream) {
+    const state = ctx.getState();
+    console.log('payload0');
+    console.log(payload);
+    this.clientsApiService
+      .getValuesStream(payload.clientId)
+      .subscribe((data: any) => {
+        console.log(data);
+        if (data && data.values) {
+          /*         state.data.concat(data.values);
+        console.log(state.data);
+        ctx.patchState({ data: JSON.parse(JSON.stringify(state.data)) }); */
+          ctx.setState(
+            produce(draft => {
+              data.values.forEach(el => {
+                draft.data.push(el);
+              });
+            })
+          );
+        }
       });
   }
 }
