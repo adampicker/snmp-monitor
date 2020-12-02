@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { columns, TableColumn } from './client-list.config';
-import { ClientsApiService } from '../../service/clients-api.service';
+import { ClientsApiService } from '../../../../core/service/clients-api.service';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';

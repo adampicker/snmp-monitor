@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Mib } from '../../../shared/model/snmp.model';
 import { Observable, of } from 'rxjs';
 import { ConfigurationSave } from '../model/configuration.model';
+import { MibApiService } from '../../../core/service/mib-api.service';
+import { ConfigurationApiService } from '../../../core/service/configuration-api.service';
 
 const sampleMibs: Mib[] = [
   {
@@ -172,21 +174,17 @@ export class MibService {
     accept: '*/*',
     'Acces-Control-Allow-Origin': '*'
   });
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private mibApiService: MibApiService,
+    private configurationApiService: ConfigurationApiService
+  ) {}
 
-  getAllMibs(): Observable<Mib[]> {
-    //return of(sampleMibs);
-    return this.http.get<Mib[]>('http://localhost:8080/users/get-mibs');
+  getAllMibs() {
+    return this.mibApiService.getAllMibs();
   }
 
   saveConfiguration(configurationToSave: ConfigurationSave): Observable<any> {
-    const httpOptions = {
-      headers: this.headers
-    };
-    return this.http.post<any>(
-      `http://localhost:8080/users/add-configuration`,
-      configurationToSave,
-      httpOptions
-    );
+    return this.configurationApiService.saveConfiguration(configurationToSave);
   }
 }

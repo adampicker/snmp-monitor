@@ -47,8 +47,11 @@
         <div class="container__card-row__card__card-body__name">
           {{ mib.description }}
         </div>
-        <div class="container__card-row__card__card-body__value">
-          {{ mibCardsValues[mib.oid] }}
+        <div
+          class="container__card-row__card__card-body__value"
+          *ngIf="mibCardsValues[mib.oid] as value"
+        >
+          {{ value === '' || !value ? 'Unavailable' : value }}
         </div>
       </div>
       <div class="container__card-row__card__card-footer">

@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SseService } from '../../../core/service/sse.service';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DataStream } from '../../../core/model/data.model';
+import { Client } from '../../shared/model/snmp.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientsApiService {
-  constructor(private http: HttpClient, private sseService: SseService) {}
+  constructor(private http: HttpClient) {}
 
   getAllClients() {
     return this.http.get<any>(`http://localhost:8080/users/get-clients`);
@@ -18,16 +17,18 @@ export class ClientsApiService {
     return this.http.get<any>(`http://localhost:8080/users/get-client/${id}`);
   }
 
-  getValuesStream(clientId: number): Observable<DataStream> {
-    return this.sseService.getServerSentEvent(
-      `http://localhost:8080/users/data-stream`
-    );
-    // return this.sseService.getSampleServerSentEvent('asd');
-  }
-
   getClientMibs(configurationId: number) {
     return this.http.get<any>(
       `http://localhost:8080/users/get-mibs-in-configuration/${configurationId}`
+    );
+  }
+  updateClientsConfiguration(
+    clientId: number,
+    configurationId: number
+  ): Observable<Client> {
+    return this.http.put<Client>(
+      `http://localhost:8080/users/update-clients-configuration/${clientId}`,
+      { configurationId: configurationId }
     );
   }
 }

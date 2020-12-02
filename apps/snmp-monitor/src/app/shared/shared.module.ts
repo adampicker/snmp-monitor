@@ -9,13 +9,15 @@ import { MenuLeftComponent } from './components/menu-left/menu-left.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CreateConfigurationModalComponent } from '../modules/mib/components/create-configuration-modal/create-configuration-modal.component';
 import { LengthPipe } from './pipes/length.pipe';
+import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
   declarations: [
     SpinnerComponent,
     MenuLeftComponent,
     MenuTopComponent,
-    LengthPipe
+    LengthPipe,
+    ButtonComponent
   ],
   imports: [CommonModule, SharedRoutingModule],
   exports: [SpinnerComponent, MenuTopComponent, MenuLeftComponent, LengthPipe],

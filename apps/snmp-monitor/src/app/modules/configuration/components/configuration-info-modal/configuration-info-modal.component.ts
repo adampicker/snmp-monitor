@@ -6,6 +6,7 @@ import { UpdateModalState } from 'apps/snmp-monitor/src/app/core/store/modal.act
 import { Mib } from 'apps/snmp-monitor/src/app/shared/model/snmp.model';
 import { ToastrService } from 'ngx-toastr';
 import { ConfigurationService } from '../../service/configuration.service';
+import { MibApiService } from 'apps/snmp-monitor/src/app/core/service/mib-api.service';
 
 @Component({
   selector: 'snmp-monitor-configuration-info-modal',
@@ -17,11 +18,13 @@ export class ConfigurationInfoModalComponent
   implements OnInit {
   configuration: Configuration = null;
   configurationView: { mib: Mib; checked: boolean }[] = [];
+  isLoading = true;
 
   constructor(
     private store: Store,
     private toastr: ToastrService,
-    private configurationService: ConfigurationService
+    private configurationService: ConfigurationService,
+    private mibApiService: MibApiService
   ) {
     super();
   }
@@ -36,6 +39,7 @@ export class ConfigurationInfoModalComponent
   }
 
   onSave() {
+    this.isLoading = true;
     this.configuration.mib = [];
     this.configurationView.forEach(element => {
       if (element.checked) this.configuration.mib.push(element.mib);
@@ -43,23 +47,36 @@ export class ConfigurationInfoModalComponent
     this.configurationService.updateConfiguration(this.configuration).subscribe(
       res => {
         this.toastr.success('Configuration updated sucessfully', '');
+        this.store.dispatch(
+          new UpdateModalState({ modalName: '', value: { refresh: true } })
+        );
+        this.closeModal();
       },
       err => {
         this.toastr.error(
           'Configuration has not been updated',
           'Try again later'
         );
+        this.store.dispatch(
+          new UpdateModalState({ modalName: '', value: { refresh: true } })
+        );
+        this.closeModal();
       }
     );
-    this.store.dispatch(
-      new UpdateModalState({ modalName: '', value: { refresh: true } })
-    );
-    this.closeModal();
   }
 
   private parseConfigurationToView(configuration: Configuration) {
-    configuration.mib.forEach(mib => {
-      this.configurationView.push({ mib: mib, checked: true });
+    this.mibApiService.getAllMibs().subscribe((res: Mib[]) => {
+      res.forEach((mib: Mib) => {
+        const i = configuration.mib.findIndex(
+          mibInConf => mibInConf.oid === mib.oid
+        );
+        this.configurationView.push({
+          mib: mib,
+          checked: i !== -1 ? true : false
+        });
+        this.isLoading = false;
+      });
     });
   }
 }

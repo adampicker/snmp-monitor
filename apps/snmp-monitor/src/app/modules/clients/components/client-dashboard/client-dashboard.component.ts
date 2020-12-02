@@ -6,7 +6,7 @@ import {
   Input
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ClientsApiService } from '../../service/clients-api.service';
+import { ClientsApiService } from '../../../../core/service/clients-api.service';
 import { Client, Mib } from 'apps/snmp-monitor/src/app/shared/model/snmp.model';
 import { ConfigurationStore } from '../../../configuration/store/configuration.state';
 import {
@@ -14,10 +14,11 @@ import {
   Subject,
   forkJoin,
   VirtualTimeScheduler,
-  merge
+  merge,
+  of
 } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { ConfigurationService } from '../../../configuration/service/configuration.service';
 import { Configuration } from '../../../configuration/model/configuration.model';
 import { EChartOption } from 'echarts';
@@ -29,6 +30,8 @@ import {
   DataValues
 } from 'apps/snmp-monitor/src/app/core/model/data.model';
 
+import { chartOptions } from './chart-options';
+
 interface ChartData {
   name: number;
   value: number[];
@@ -39,12 +42,12 @@ interface ChartData {
   templateUrl: './client-dashboard.component.html',
   styleUrls: ['./client-dashboard.component.scss']
 })
-export class ClientDashboardComponent implements OnInit {
+export class ClientDashboardComponent implements OnInit, OnDestroy {
   @Input() client: Client;
   chartData: ChartData[] = [];
   allData = [];
   updateOptions: any;
-  chartOptions: any;
+  chartOptions: any; // chartOptions;
 
   timer = null;
   private now: Date;
@@ -56,13 +59,11 @@ export class ClientDashboardComponent implements OnInit {
   initialLoadDone$: Subject<boolean> = new Subject<boolean>();
 
   mibsCards: Mib[] = [];
-  mibCardsValues: { [key: string]: string } = {};
+  mibCardsValues: Observable<{ [key: string]: string }> = of({});
   public mibToFetch: Mib = null;
 
   destroy$ = new Subject<boolean>();
   changeMib$ = new Subject<boolean>();
-
-  cardsValues: { [key: string]: string } = {};
 
   constructor(
     private clientsApiService: ClientsApiService,
@@ -101,6 +102,7 @@ export class ClientDashboardComponent implements OnInit {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
+    this.clientDataService.closeDataValuesStream();
     clearInterval(this.timer);
   }
 
@@ -118,15 +120,13 @@ export class ClientDashboardComponent implements OnInit {
     };
   }
 
-  private updateData(values: number[]) {
-    this.chartData.push({ name: values[0], value: [values[0], values[1]] });
-  }
-
   private refreshChart() {
+    console.log(this.updateOptions);
     this.updateOptions = {
       series: [
         {
-          data: this.chartData
+          ...this.chartOptions.series,
+          data: JSON.parse(JSON.stringify(this.chartData))
         }
       ]
     };
@@ -146,32 +146,52 @@ export class ClientDashboardComponent implements OnInit {
   }
 
   onShowOnChart(mib: Mib) {
-    this.mibToFetch = this.mibsCards.find(m => m.oid === mib.oid);
-    this.chartData = this.allData.filter(
-      value => value.oid === this.mibToFetch.oid
+    this.mibToFetch = this.mibsCards.find(m => m.oid.includes(mib.oid));
+    const data = this.allData.filter(value =>
+      this.mibToFetch.oid.includes(value.oid)
     );
-    console.log('after flters');
-    console.log(this.chartData);
-    this.refreshChart();
+    console.log(data);
+    this.chartOptions = {
+      ...this.chartOptions,
+      title: {
+        text: this.mibToFetch.description
+      }
+    };
+    this.cleanAndUpdateChart(data);
   }
 
   startDataStream() {
     let initialLoadDone = false;
-    this.clientsApiService
-      .getValuesStream(1) //temmp id)
+    this.clientDataService
+      .getDataValuesAsObservable() //temmp id)
       .subscribe((data: DataStream) => {
-        if (data.values) {
+        if (data && data.values) {
           if (data.values.length === 0) return;
           else if (!initialLoadDone) {
             this.allData = data.values;
+            //console.log(data.values);
             this.initChart(
-              data.values.filter(value => value.oid === this.mibToFetch.oid)
+              data.values
+                .map(val => {
+                  this.mibCardsValues[val.oid] = val.value;
+                  return val;
+                })
+                .filter(
+                  value => value.oid && value.oid.includes(this.mibToFetch.oid)
+                )
             );
             initialLoadDone = true;
           } else {
+            //console.log(data.values);
+            data.values.forEach((val: DataValues) => {
+              this.allData.push(val);
+              this.mibCardsValues[val.oid] = val.value;
+            });
             this.allData.push(data.values);
             this.updateChart(
-              data.values.filter(value => value.oid === this.mibToFetch.oid)
+              data.values.filter(value =>
+                this.mibToFetch.oid.includes(value.oid)
+              )
             );
           }
         }
@@ -179,7 +199,6 @@ export class ClientDashboardComponent implements OnInit {
   }
 
   updateChart(values: DataValues[]) {
-    console.log('cur');
     values.forEach(val => {
       this.chartData.push({
         name: new Date(val.timestamp).getTime(),
@@ -188,21 +207,33 @@ export class ClientDashboardComponent implements OnInit {
     });
     this.refreshChart();
   }
-  // TODO
-  // NIE DZIAŁA DRUGI RAZ OTWARTY STREAM
-  // NIE DZIAŁA ZMIANA MIB'A
+
+  cleanAndUpdateChart(data: DataValues[]) {
+    this.chartData = data.map(
+      val =>
+        <ChartData>{
+          name: new Date(val.timestamp).getTime(),
+          value: [new Date(val.timestamp).getTime(), parseFloat(val.value)]
+        }
+    );
+    this.refreshChart();
+  }
+  //  todo
+  // ogarnac zaznaczanie mibow do nowej konfiguracji
+  //  w updacie dodac dodawanie nowych
+  //
+
   private initChart(data: DataValues[]) {
     console.log(data);
     if (data) {
-      this.chartData = data
-        //  .filter(val => val.oid === '.' + this.clientDataService.oidToFetch)
-        .map(
-          val =>
-            <ChartData>{
-              name: new Date(val.timestamp).getTime(),
-              value: [new Date(val.timestamp).getTime(), parseFloat(val.value)]
-            }
-        );
+      this.chartData = data.map(
+        val =>
+          <ChartData>{
+            name: new Date(val.timestamp).getTime(),
+            value: [new Date(val.timestamp).getTime(), parseFloat(val.value)]
+          }
+      );
+
       this.chartOptions = {
         title: {
           text: this.mibToFetch.description
@@ -260,8 +291,7 @@ export class ClientDashboardComponent implements OnInit {
   }
   createMibCardsValues(mibs: Mib[]) {
     mibs.forEach((m: Mib) => {
-      this.cardsValues[m.oid] = 'Unavailable';
+      this.mibCardsValues[m.oid] = '';
     });
-    console.log(this.cardsValues);
   }
 }

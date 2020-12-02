@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ClientsApiService } from '../../service/clients-api.service';
+import { ClientsApiService } from '../../../../core/service/clients-api.service';
 import { Client, Mib } from 'apps/snmp-monitor/src/app/shared/model/snmp.model';
 import { ConfigurationStore } from '../../../configuration/store/configuration.state';
 import { Observable, Subject, forkJoin, VirtualTimeScheduler } from 'rxjs';
@@ -11,6 +11,7 @@ import { Configuration } from '../../../configuration/model/configuration.model'
 import { EChartOption } from 'echarts';
 import { DataStore } from 'apps/snmp-monitor/src/app/core/store/data.state';
 import { ClientDataService } from '../../service/client-data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'snmp-monitor-client-details',
@@ -22,6 +23,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   clientsInfo: Client = null;
   configurations: Configuration[] = [];
   selectedConfiguration: Configuration = null;
+  tempSelectedConfigurationId: number = null;
 
   isLoading = true;
 
@@ -32,12 +34,13 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private clientApiService: ClientsApiService,
     private configurationService: ConfigurationService,
-    private store: Store,
-    private clientDataService: ClientDataService
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.getClient();
+    const id = parseFloat(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.loadClientData();
+    //this.getClient();
   }
 
   private getClient() {
@@ -51,8 +54,31 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   }
 
   onResetClick() {
-    console.log('reset');
-    console.log(this.selectedConfiguration);
+    switch (this.btnLabel) {
+      case 'Restart':
+
+      case 'Update':
+        this.isLoading = false;
+        this.clientApiService
+          .updateClientsConfiguration(
+            this.clientsInfo.id,
+            this.tempSelectedConfigurationId
+          )
+          .subscribe(
+            (res: Client) => {
+              this.clientsInfo = res;
+              this.isLoading = false;
+              this.btnLabel = 'Restart';
+            },
+            err => {
+              this.toastrService.error(
+                'Configuration has not been deleted',
+                'Try again later on'
+              );
+              this.isLoading = false;
+            }
+          );
+    }
   }
 
   ngOnDestroy() {
@@ -61,6 +87,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   }
 
   loadClientData() {
+    console.log('xd');
     const id = parseFloat(this.activatedRoute.snapshot.paramMap.get('id'));
     const clients$ = this.clientApiService.getClientDetails(id);
     const configurations$ = this.configurationService.getAllConfigurations();
@@ -70,6 +97,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
         if (data) {
           this.clientsInfo = data[0];
           this.configurations = data[1];
+          console.log(this.configurations);
           this.selectedConfiguration = this.resolveClientsConfiguration();
           this.isLoading = false;
         }
@@ -91,5 +119,6 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   onConfigurationChange(event: any) {
     this.btnLabel =
       event.value.id === this.clientsInfo.configuration ? 'Restart' : 'Update';
+    this.tempSelectedConfigurationId = event.value.id;
   }
 }

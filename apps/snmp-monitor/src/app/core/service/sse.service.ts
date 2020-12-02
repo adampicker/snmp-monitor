@@ -54,7 +54,7 @@ export class SseService {
       };
     });
   }
-  private getEventSource(url: string): EventSourcePolyfill {
+  getEventSource(url: string): EventSourcePolyfill {
     return new EventSourcePolyfill(url, {
       headers: {
         Authorization: `Bearer ${
@@ -83,5 +83,10 @@ export class SseService {
         observer.next(this.SAMPLE_LIVE_DATA[keys[sequence]]);
       });
     });
+  }
+
+  closeEventSource(eventSource: EventSourcePolyfill) {
+    console.log(eventSource);
+    if (eventSource) eventSource.close();
   }
 }
