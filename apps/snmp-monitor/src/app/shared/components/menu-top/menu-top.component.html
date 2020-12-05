@@ -1,5 +1,39 @@
 <div class="menu-top">
-  <span class="menu-top__logo" routerLink="/dashboard"> SNMP Monitor</span>
+  <span class="menu-top__logo" routerLink="/dashboard">
+    <img
+      class="snmp-logo"
+      src="../../../../assets/images/logo_transparent.png"
+    />
+  </span>
+  <div class="menu-top__search">
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <i class="search"></i>
+        <input
+          class="mat-input-element mat-form-field-autofill-control mat-autocomplete-trigger cdk-text-field-autofill-monitored"
+          type="text"
+          placeholder="Type to search..."
+          aria-label="Number"
+          matInput
+          [formControl]="myControl"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          class="mat-autocomplete"
+          autoActiveFirstOption
+          #auto="matAutocomplete"
+        >
+          <mat-option
+            class="mat-option"
+            *ngFor="let option of filteredOptions | async"
+            [value]="option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </div>
   <div class="menu-top__logout" (click)="onLogout()">
     <span class="menu-top__logout__text">
       Logout

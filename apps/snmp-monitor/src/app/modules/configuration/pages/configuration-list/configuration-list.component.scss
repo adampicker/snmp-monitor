@@ -3,7 +3,6 @@
   justify-content: center;
   width: calc(100%);
   height: calc(100%);
-  background-color: #f2f2f2;
   border-radius: 2px;
   &__configuration-list {
     box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
@@ -78,6 +77,9 @@ td.mat-cell {
     i.desktop {
       content: url('apps/snmp-monitor/src/assets/images/desktop2.svg');
       height: 20px;
+      padding: 0;
+      background-color: transparent;
+      border-radius: unset;
     }
     &__text {
       margin-left: 10px;

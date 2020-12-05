@@ -65,6 +65,8 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<boolean>();
   changeMib$ = new Subject<boolean>();
 
+  isLoading = true;
+
   constructor(
     private clientsApiService: ClientsApiService,
     private store: Store,
@@ -72,31 +74,10 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    //this.getClient();
     console.log(this.client);
     this.now = new Date(2020, 5, 27, 0, 0, 0, 0);
     this.value = Math.random() * 1000;
     this.loadConfigurationMibs();
-    //this.store.dispatch(new OpenDataStream({ clientId: this.client.id }));
-    //this.clientDataService.startStreaming();
-
-    //this.handleValuesStream();
-
-    /* this.timer = setInterval(() => {
-        for (let i = 0; i < 5; i++) {
-          //this.chartData.shift();
-          this.chartData.push(this.randomData());
-        }
-  
-        // update series data:
-        this.updateOptions = {
-          series: [
-            {
-              data: this.chartData
-            }
-          ]
-        };
-      }, 1000); */
   }
 
   ngOnDestroy() {
@@ -181,6 +162,7 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
                 )
             );
             initialLoadDone = true;
+            this.isLoading = false;
           } else {
             //console.log(data.values);
             data.values.forEach((val: DataValues) => {
@@ -260,7 +242,7 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
             );
           },
           axisPointer: {
-            animation: false
+            animation: true
           }
         },
         xAxis: {

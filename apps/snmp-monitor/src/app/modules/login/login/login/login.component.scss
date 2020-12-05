@@ -77,6 +77,7 @@ input[type='password'] {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: fixed;
 }
 
 :host {

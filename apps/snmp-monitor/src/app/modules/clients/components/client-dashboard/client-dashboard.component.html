@@ -5,12 +5,14 @@
       class="container__card-row__card"
     >
       <div class="container__card-row__card__card-body">
-        <i class="container__card-row__card__card-body__icon"></i>
         <div class="container__card-row__card__card-body__name">
           {{ mib.description | titlecase | length: 26:'...' }}
         </div>
-        <div class="container__card-row__card__card-body__value">
-          {{ mibCardsValues[mib.oid] }}
+        <div class="container__card-row__card__card-body--icon-val">
+          <i class="container__card-row__card__card-body--icon-val__icon"></i>
+          <div class="container__card-row__card__card-body--icon-val__value">
+            {{ mibCardsValues[mib.oid] }}
+          </div>
         </div>
       </div>
       <div class="container__card-row__card__card-footer">
@@ -31,11 +33,17 @@
   </div>
   <div>
     <div
+      *ngIf="!isLoading; else loading"
       echarts
       [options]="chartOptions"
       [merge]="updateOptions"
       class="dashboard-container"
     ></div>
+    <ng-template #loading>
+      <div class="dashboard-container--loading">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
   </div>
   <div class="container__card-row">
     <div
@@ -43,20 +51,26 @@
       class="container__card-row__card"
     >
       <div class="container__card-row__card__card-body">
-        <i class="container__card-row__card__card-body__icon"></i>
         <div class="container__card-row__card__card-body__name">
           {{ mib.description }}
         </div>
-        <div
-          class="container__card-row__card__card-body__value"
-          *ngIf="mibCardsValues[mib.oid] as value"
-        >
-          {{ value === '' || !value ? 'Unavailable' : value }}
+        <div class="container__card-row__card__card-body--icon-val">
+          <i class="container__card-row__card__card-body--icon-val__icon"></i>
+
+          <div
+            class="container__card-row__card__card-body--icon-val__value"
+            *ngIf="mibCardsValues[mib.oid] as value"
+          >
+            {{ value === '' || !value ? 'Unavailable' : value }}
+          </div>
         </div>
       </div>
       <div class="container__card-row__card__card-footer">
         <hr />
-        <div class="container__card-row__card__card-footer__show">
+        <div
+          class="container__card-row__card__card-footer__show"
+          (click)="onShowOnChart(mib)"
+        >
           <div class="container__card-row__card__card-footer__show__text">
             Show
           </div>
@@ -66,9 +80,5 @@
         </div>
       </div>
     </div>
-    <!--     <div class="container__card-row__card"></div>
-      <div class="container__card-row__card"></div>
-      <div class="container__card-row__card"></div>
-      <div class="container__card-row__card"></div> -->
   </div>
 </div>

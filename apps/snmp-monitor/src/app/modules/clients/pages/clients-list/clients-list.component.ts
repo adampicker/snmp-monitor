@@ -21,8 +21,7 @@ import { Observable, Subject } from 'rxjs';
 @Component({
   selector: 'snmp-monitor-clients-list',
   templateUrl: './clients-list.component.html',
-  styleUrls: ['./clients-list.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./clients-list.component.scss']
 })
 export class ClientsListComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<boolean>();

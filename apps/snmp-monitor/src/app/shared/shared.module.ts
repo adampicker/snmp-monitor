@@ -1,15 +1,14 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { SharedRoutingModule } from './shared-routing.module';
-import { PageLayoutComponent } from './layouts/page-layout/page-layout.component';
 import { MenuTopComponent } from './components/menu-top/menu-top.component';
 import { SpinnerComponent } from './ui/spinner/spinner.component';
 import { MenuLeftComponent } from './components/menu-left/menu-left.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { CreateConfigurationModalComponent } from '../modules/mib/components/create-configuration-modal/create-configuration-modal.component';
 import { LengthPipe } from './pipes/length.pipe';
 import { ButtonComponent } from './components/button/button.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,8 +18,15 @@ import { ButtonComponent } from './components/button/button.component';
     LengthPipe,
     ButtonComponent
   ],
-  imports: [CommonModule, SharedRoutingModule],
+  imports: [
+    CommonModule,
+    SharedRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatAutocompleteModule
+  ],
   exports: [SpinnerComponent, MenuTopComponent, MenuLeftComponent, LengthPipe],
-  entryComponents: [CreateConfigurationModalComponent]
+  entryComponents: [CreateConfigurationModalComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SharedModule {}

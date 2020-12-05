@@ -3,7 +3,6 @@
   justify-content: center;
   width: calc(100%);
   height: calc(100%);
-  background-color: #f2f2f2;
   border-radius: 2px;
   &__clients-list {
     box-shadow: 0px 0px 12px -2px rgba(0, 0, 0, 0.75);
@@ -95,6 +94,9 @@
         i.desktop {
           content: url('apps/snmp-monitor/src/assets/images/desktop2.svg');
           height: 30px;
+          padding: 0;
+          background-color: transparent;
+          border-radius: unset;
         }
         &__text {
           align-self: center;

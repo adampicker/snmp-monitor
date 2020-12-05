@@ -16,8 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'snmp-monitor-client-details',
   templateUrl: './client-details.component.html',
-  styleUrls: ['./client-details.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./client-details.component.scss']
 })
 export class ClientDetailsComponent implements OnInit, OnDestroy {
   clientsInfo: Client = null;

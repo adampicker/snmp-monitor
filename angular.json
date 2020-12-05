@@ -26,9 +26,10 @@
               "apps/snmp-monitor/src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "apps/snmp-monitor/src/styles.scss",
-              "./node_modules/ngx-toastr/toastr.css"
+              {
+                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+              },
+              "apps/snmp-monitor/src/styles.scss"
             ],
             "scripts": []
           },

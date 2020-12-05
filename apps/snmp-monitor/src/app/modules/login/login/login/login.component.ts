@@ -16,8 +16,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'snmp-monitor-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   signInForm: FormGroup;

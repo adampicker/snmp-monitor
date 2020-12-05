@@ -19,8 +19,7 @@ import { UpdateModalState } from 'apps/snmp-monitor/src/app/core/store/modal.act
 @Component({
   selector: 'snmp-monitor-mib-list',
   templateUrl: './mib-list.component.html',
-  styleUrls: ['./mib-list.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./mib-list.component.scss']
 })
 export class MibListComponent implements OnInit, OnDestroy {
   public dataSource = new MatTableDataSource<Mib>();

@@ -19,6 +19,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { ToastrModule } from 'ngx-toastr';
 import * as echarts from 'echarts';
+import { ErrorInterceptor } from './core/interceptor/error.interceptor';
 
 @NgModule({
   declarations: [AppComponent, PageLayoutComponent],
@@ -27,13 +28,10 @@ import * as echarts from 'echarts';
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule,
     HttpClientModule,
     SharedModule,
     CoreModule,
     SimpleModalModule,
-    FormsModule,
-    ReactiveFormsModule,
     ToastrModule.forRoot({
       closeButton: true,
       positionClass: 'toast-top-center',
@@ -44,7 +42,8 @@ import * as echarts from 'echarts';
     })
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
