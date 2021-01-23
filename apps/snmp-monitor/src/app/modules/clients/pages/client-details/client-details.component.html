@@ -80,10 +80,10 @@
 
       <div class="details-container__info__row__col">
         <div class="details-container__info--label">
-          Port
+          Telnet on port:
         </div>
         <div class="details-container__info__row__col--text">
-          {{ clientsInfo.port }}
+          {{ clientsInfo.telnetPort }}
         </div>
       </div>
 
@@ -109,8 +109,7 @@
   </div>
   <ng-template #loader>
     <div class="details-container__loader">
-      <mat-spinner></mat-spinner> // zrobić loader i rozplanowac
-      dashboard-container
+      <mat-spinner></mat-spinner>
     </div>
   </ng-template>
 </div>

@@ -24,11 +24,8 @@ export class DataStore {
 
   @Selector()
   static getClientsData(clientId: number) {
-    console.log(clientId);
     return (state: DataState) => {
-      state.data.forEach(el => {
-        console.log(el.clientId);
-      });
+      state.data.forEach(el => {});
       return state.data.filter(el => el.clientId === clientId);
     };
   }
@@ -36,28 +33,4 @@ export class DataStore {
   static getData(state: DataState) {
     return state.data;
   }
-
-  // @Action(OpenDataStream)
-  // openDataStream(ctx: StateContext<DataState>, { payload }: OpenDataStream) {
-  //   const state = ctx.getState();
-  //   console.log('payload0');
-  //   console.log(payload);
-  //   this.clientsApiService
-  //     .getValuesStream(payload.clientId)
-  //     .subscribe((data: any) => {
-  //       console.log(data);
-  //       if (data && data.values) {
-  //         /*         state.data.concat(data.values);
-  //       console.log(state.data);
-  //       ctx.patchState({ data: JSON.parse(JSON.stringify(state.data)) }); */
-  //         ctx.setState(
-  //           produce(draft => {
-  //             data.values.forEach(el => {
-  //               draft.data.push(el);
-  //             });
-  //           })
-  //         );
-  //       }
-  //     });
-  // }
 }

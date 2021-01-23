@@ -86,7 +86,6 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   }
 
   loadClientData() {
-    console.log('xd');
     const id = parseFloat(this.activatedRoute.snapshot.paramMap.get('id'));
     const clients$ = this.clientApiService.getClientDetails(id);
     const configurations$ = this.configurationService.getAllConfigurations();
@@ -96,7 +95,6 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
         if (data) {
           this.clientsInfo = data[0];
           this.configurations = data[1];
-          console.log(this.configurations);
           this.selectedConfiguration = this.resolveClientsConfiguration();
           this.isLoading = false;
         }

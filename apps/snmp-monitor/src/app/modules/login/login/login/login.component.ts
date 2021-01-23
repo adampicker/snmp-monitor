@@ -53,12 +53,10 @@ export class LoginComponent implements OnInit {
     this.authenticationService
       .signUp(this.username, this.password)
       .subscribe(response => {
-        console.log(response);
         this.authenticationService
           .login(this.username, this.password)
           .subscribe(
             (res: HttpResponse<any>) => {
-              console.log(res);
               if (res.status === 200 && res.headers.get('Authorization')) {
                 this.router.navigate(['/dashboard']);
               } else {

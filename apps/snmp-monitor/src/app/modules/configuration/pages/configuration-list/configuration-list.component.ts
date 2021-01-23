@@ -115,7 +115,8 @@ export class ConfigurationListComponent implements OnInit {
     else this.defaultConfigurationId = 0;
   }
 
-  onRowSelection(row: Configuration) {
+  onRowSelection(event: any, row: Configuration) {
+    event.stopPropagation();
     this.store.dispatch(
       new UpdateModalState({
         modalName: 'ConfigurationInfoModalComponent',
@@ -137,7 +138,6 @@ export class ConfigurationListComponent implements OnInit {
 
   onDelete(event: Event, confToDelete: Configuration) {
     event.stopPropagation();
-    console.log(confToDelete);
     this.configurationService.deleteConfiguration(confToDelete.id).subscribe(
       res => {
         this.toastrService.success('Configuration deleted successfully', 'dd');

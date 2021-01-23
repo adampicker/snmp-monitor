@@ -28,13 +28,15 @@ export const routes: Routes = [
     path: 'clients',
     component: PageLayoutComponent,
     loadChildren: () =>
-      import('./modules/clients/clients.module').then(m => m.ClientsModule)
+      import('./modules/clients/clients.module').then(m => m.ClientsModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'mibs',
     component: PageLayoutComponent,
     loadChildren: () =>
-      import('./modules/mib/mib.module').then(m => m.MibModule)
+      import('./modules/mib/mib.module').then(m => m.MibModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'configuration',
@@ -42,7 +44,17 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./modules/configuration/configuration.module').then(
         m => m.ConfigurationModule
-      )
+      ),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'about',
+    component: PageLayoutComponent,
+    loadChildren: () =>
+      import('./modules/dashboard/dashboard.module').then(
+        m => m.DashboardModule
+      ),
+    canActivate: [AuthGuard]
   }
 ];
 

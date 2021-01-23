@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { SimpleModalComponent } from 'ngx-simple-modal';
 import { Store } from '@ngxs/store';
 import { UpdateModalState } from 'apps/snmp-monitor/src/app/core/store/modal.action';
@@ -12,7 +12,11 @@ export class ConfirmationModalComponent extends SimpleModalComponent<any, any>
   implements OnInit {
   success: boolean;
 
-  constructor(private store: Store) {
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if (!this.eRef.nativeElement.contains(event.target)) this.closeModal();
+  }
+  constructor(private store: Store, private eRef: ElementRef) {
     super();
   }
 

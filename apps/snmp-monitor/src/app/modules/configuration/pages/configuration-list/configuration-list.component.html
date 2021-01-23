@@ -103,7 +103,7 @@
         mat-row
         *matRowDef="let row; columns: displayedColumns"
         [ngClass]="{ selected: row.id === defaultConfigurationId }"
-        (click)="onRowSelection(row)"
+        (click)="onRowSelection($event, row)"
       ></tr>
     </table>
 

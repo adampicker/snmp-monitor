@@ -50,7 +50,6 @@ export class MibListComponent implements OnInit, OnDestroy {
       if (state && state.value && state.value.select) {
         this.displayedColumns.unshift('select');
         this.headerButtonLabel = 'Add selected OIDs';
-        console.log(state.value);
         this.modalValue = { ...state.value };
       } else if (state.modalName === 'ConfirmationModalComponent') {
         this.selectedMibs = [];
@@ -76,7 +75,6 @@ export class MibListComponent implements OnInit, OnDestroy {
       const i = this.selectedMibs.findIndex(mib => mib.oid === element.oid);
       if (i !== -1) this.selectedMibs.splice(i, 1);
     }
-    console.log(this.selectedMibs);
   }
 
   onHeaderButton(event: any) {
@@ -89,7 +87,6 @@ export class MibListComponent implements OnInit, OnDestroy {
         })
       );
     else if (this.headerButtonLabel === 'Add selected OIDs') {
-      console.log(this.modalValue);
       this.store.dispatch(
         new UpdateModalState({
           modalName: 'CreateConfigurationModalComponent',

@@ -50,6 +50,11 @@
           color: #252733;
           font-size: 20px;
           font-weight: 500;
+          display: flex;
+          margin-left: 19px;
+          &.loader {
+            margin-top: -4px;
+          }
           &:hover {
             color: black;
           }

@@ -15,6 +15,7 @@ export class CreateConfigurationModalComponent
   implements OnInit {
   configurationName: string = null;
   asDefault = true;
+  isLoading = false;
   selectedMibs: Mib[];
 
   @HostListener('document:click', ['$event'])
@@ -52,6 +53,7 @@ export class CreateConfigurationModalComponent
       );
       this.closeModal();
     } else {
+      this.isLoading = true;
       this.mibService
         .saveConfiguration({
           configurationName: this.configurationName,
@@ -60,9 +62,11 @@ export class CreateConfigurationModalComponent
         })
         .subscribe(
           res => {
+            this.isLoading = false;
             this.openConfirmationModal(true);
           },
           err => {
+            this.isLoading = false;
             this.openConfirmationModal(false);
           }
         );

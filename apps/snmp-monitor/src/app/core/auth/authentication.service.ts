@@ -4,6 +4,7 @@ import { User } from '../model/user.model';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,6 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient, private router: Router) {
     const token = sessionStorage.getItem('token');
-    console.log(token);
 
     this.currentUserSubject = new BehaviorSubject<User>({
       username: 'adam1',
@@ -40,7 +40,7 @@ export class AuthenticationService {
     };
     return this.http
       .post<HttpResponse<any>>(
-        `http://localhost:8080/login`,
+        `${environment.API_URL}/login`,
         {
           username,
           password
@@ -49,13 +49,11 @@ export class AuthenticationService {
       )
       .pipe(
         tap(res => {
-          console.log(res);
           if (res.ok && res.headers.get('Authorization')) {
             this.currentUserSubject.next({
               username: username,
               token: res.headers.get('Authorization')
             });
-            console.log('nie ma ');
             sessionStorage.setItem('token', res.headers.get('Authorization'));
           }
         })
@@ -74,7 +72,7 @@ export class AuthenticationService {
   }
 
   signUp(username: string, password: string) {
-    return this.http.post<any>('http://localhost:8080/users/sign-up', {
+    return this.http.post<any>(`${environment.API_URL}/users/sign-up`, {
       username: username,
       password: password
     });

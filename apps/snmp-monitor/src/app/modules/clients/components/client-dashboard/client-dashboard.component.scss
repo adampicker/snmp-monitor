@@ -109,6 +109,19 @@
     margin: 32px auto auto auto;
     box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
   }
+  &--no-data {
+    align-items: center;
+    display: flex;
+    width: 95%;
+    height: 550px;
+    background-color: #fff;
+    margin: 32px auto auto auto;
+    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
+    font-size: 24px;
+    font-weight: 500;
+    justify-content: center;
+    align-self: center;
+  }
 }
 
 /* <a href="https://iconscout.com/icons/social" target="_blank">Atom Logo Icon</a> by <a href="https://iconscout.com/contributors/pocike" target="_blank">Alpár - Etele Méder</a>

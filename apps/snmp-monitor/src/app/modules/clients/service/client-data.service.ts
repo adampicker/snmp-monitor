@@ -9,6 +9,7 @@ import { Mib } from '../../../shared/model/snmp.model';
 import { EventSourcePolifyll } from 'event-source-polyfill';
 import { takeUntil } from 'rxjs/operators';
 import { SseService } from '../../../core/service/sse.service';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -34,36 +35,7 @@ export class ClientDataService {
     private sse: SseService
   ) {}
 
-  // startStreaming() {
-  //   //this.clientsApiService.getValuesStream().subscribe((data: DataStream) => {
-  //   if (this.dataSubscribtion && !this.dataSubscribtion.closed) {
-  //     this.dataSubscribtion.unsubscribe();
-  //     console.log('unsu');
-  //   }
-  //   this.dataSubscribtion = this.data$.subscribe((data: DataValues[]) => {
-  //     console.log(data);
-  //     if (data && !this.initialLoadDone) {
-  //       //this._data.push(data.values);
-  //       this.previousData.next(
-  //         data.filter(el => el.oid === this.mibToFetch.oid)
-  //       );
-  //       this.initialLoadDone = true;
-  //     } else if (
-  //       this.mibToFetch &&
-  //       this.mibToFetch.oid.length > 0 &&
-  //       this.initialLoadDone
-  //     ) {
-  //       data.forEach((el, index, array) => {
-  //         if (el.oid === this.mibToFetch.oid) {
-  //           this.currentData.next(el);
-  //         }
-  //         // this.cardsValues[el.oid] = el.value;
-  //       });
-  //     }
-  //   });
-  // }
-
-  startDataValuesStream() {
+  startDataValuesStream(clientId: number) {
     if (
       this.dataValuesStream &&
       this.dataValuesStream.eventSource &&
@@ -73,20 +45,20 @@ export class ClientDataService {
       return;
     this.dataValuesStream = {
       eventSource: this.sse.getEventSource(
-        `http://localhost:8080/users/data-stream`
+        `${environment.API_URL}users/data-stream/${clientId}`
       ),
       events: new BehaviorSubject<DataStream>(null)
-    }; // tempid
+    };
     this.sse
-      .getSampleServerSentEvent(this.dataValuesStream.eventSource)
+      .getServerSentEvent(this.dataValuesStream.eventSource)
       .pipe(takeUntil(this.destroy$))
       .subscribe(data => {
         this.dataValuesStream.events.next(data);
       });
   }
 
-  getDataValuesAsObservable(): Observable<DataStream> {
-    this.startDataValuesStream();
+  getDataValuesAsObservable(clientId: number): Observable<DataStream> {
+    this.startDataValuesStream(clientId);
     return this.dataValuesStream.events.asObservable();
   }
 
@@ -94,7 +66,6 @@ export class ClientDataService {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.destroy$ = new Subject<boolean>();
-    console.log(this.dataValuesStream.eventSource);
     this.sse.closeEventSource(this.dataValuesStream.eventSource);
     this.dataValuesStream = null;
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { SimpleModalComponent } from 'ngx-simple-modal';
 import { Configuration } from '../../model/configuration.model';
 import { Store } from '@ngxs/store';
@@ -20,11 +20,16 @@ export class ConfigurationInfoModalComponent
   configurationView: { mib: Mib; checked: boolean }[] = [];
   isLoading = true;
 
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if (!this.eRef.nativeElement.contains(event.target)) this.closeModal();
+  }
   constructor(
     private store: Store,
     private toastr: ToastrService,
     private configurationService: ConfigurationService,
-    private mibApiService: MibApiService
+    private mibApiService: MibApiService,
+    private eRef: ElementRef
   ) {
     super();
   }

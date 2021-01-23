@@ -4,9 +4,17 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AboutComponent } from './pages/about/about.component';
+import { GuideComponent } from './pages/guide/guide.component';
 
 @NgModule({
-  declarations: [DashboardComponent],
-  imports: [CommonModule, DashboardRoutingModule, MatGridListModule]
+  declarations: [DashboardComponent, AboutComponent, GuideComponent],
+  imports: [
+    CommonModule,
+    DashboardRoutingModule,
+    MatGridListModule,
+    MatProgressSpinnerModule
+  ]
 })
 export class DashboardModule {}

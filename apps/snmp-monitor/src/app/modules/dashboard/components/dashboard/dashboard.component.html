@@ -13,9 +13,33 @@
         <div class="dashboard__cards__card__info">
           <div class="dashboard__cards__card__info--text">
             Clients online:
+            <div
+              class="dashboard__cards__card__info--text"
+              [ngClass]="{ loader: isLoading }"
+            >
+              <mat-spinner
+                *ngIf="isLoading; else val1"
+                diameter="30"
+              ></mat-spinner>
+              <ng-template #val1>
+                {{ dashboardData.activeClients }}
+              </ng-template>
+            </div>
           </div>
           <div class="dashboard__cards__card__info--text">
             Clients offline:
+            <div
+              class="dashboard__cards__card__info--text"
+              [ngClass]="{ loader: isLoading }"
+            >
+              <mat-spinner
+                *ngIf="isLoading; else val2"
+                diameter="30"
+              ></mat-spinner>
+              <ng-template #val2>
+                {{ dashboardData.inactiveClients }}
+              </ng-template>
+            </div>
           </div>
           <div
             class="dashboard__cards__card__info--text"
@@ -37,7 +61,37 @@
         </div>
         <div class="dashboard__cards__card__info">
           <div class="dashboard__cards__card__info--text">
-            Created configurations: 43
+            Created configurations:
+            <div
+              class="dashboard__cards__card__info--text"
+              [ngClass]="{ loader: isLoading }"
+            >
+              <mat-spinner
+                *ngIf="isLoading; else val3"
+                diameter="30"
+              ></mat-spinner>
+              <ng-template #val3>
+                {{ dashboardData.createdConfigurations }}
+              </ng-template>
+            </div>
+          </div>
+          <div
+            class="dashboard__cards__card__info--text"
+            (click)="onAssignConfiguration($event)"
+          >
+            Configurations not assigned:
+            <div
+              class="dashboard__cards__card__info--text"
+              [ngClass]="{ loader: isLoading }"
+            >
+              <mat-spinner
+                *ngIf="isLoading; else val4"
+                diameter="30"
+              ></mat-spinner>
+              <ng-template #val4>
+                {{ dashboardData.configurationsNotAssigned }}
+              </ng-template>
+            </div>
           </div>
           <div
             class="dashboard__cards__card__info--text"
@@ -45,13 +99,6 @@
             (click)="onAddNewConfiguration($event)"
           >
             Create new configuration
-          </div>
-          <div
-            class="dashboard__cards__card__info--text"
-            [ngClass]="{ underline: true }"
-            (click)="onAssignConfiguration($event)"
-          >
-            Assign configuration to the user
           </div>
         </div>
       </div>
@@ -66,10 +113,34 @@
         </div>
         <div class="dashboard__cards__card__info">
           <div class="dashboard__cards__card__info--text">
-            Mib added 43
+            Mib added:
+            <div
+              class="dashboard__cards__card__info--text"
+              [ngClass]="{ loader: isLoading }"
+            >
+              <mat-spinner
+                *ngIf="isLoading; else val5"
+                diameter="30"
+              ></mat-spinner>
+              <ng-template #val5>
+                {{ dashboardData.mibAdded }}
+              </ng-template>
+            </div>
           </div>
           <div class="dashboard__cards__card__info--text">
-            Mib's not in configurations: 5
+            Mib's not in configurations:
+            <div
+              class="dashboard__cards__card__info--text"
+              [ngClass]="{ loader: isLoading }"
+            >
+              <mat-spinner
+                *ngIf="isLoading; else val6"
+                diameter="30"
+              ></mat-spinner>
+              <ng-template #val6>
+                {{ dashboardData.mibsNotInConfiguration }}
+              </ng-template>
+            </div>
           </div>
           <div
             class="dashboard__cards__card__info--text"

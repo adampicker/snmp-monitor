@@ -31,9 +31,7 @@ export class MenuLeftComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private simpleModalService: SimpleModalService
-  ) {
-    console.log('tworze się!!');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.modalSubscription();

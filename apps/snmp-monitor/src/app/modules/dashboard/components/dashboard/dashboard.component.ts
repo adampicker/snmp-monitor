@@ -10,13 +10,14 @@ import { DashboardData } from '../model/model';
 })
 export class DashboardComponent implements OnInit {
   dashboardData: DashboardData = null;
+  isLoading = true;
   constructor(
     private router: Router,
     private dashboardApiService: DashboardApiService
   ) {}
 
   ngOnInit(): void {
-    this.dashboardApiService.getDashboardData().subscribe();
+    this.getDashboardData();
   }
 
   onAddNewClient(event: any) {
@@ -41,15 +42,20 @@ export class DashboardComponent implements OnInit {
     event.preventDefault();
   }
   onGuidelineClick(event: any) {
-    console.error('TODO');
+    this.router.navigate(['/dashboard/guide']);
     event.stopPropagation();
     event.preventDefault();
   }
   onAboutClick(event: any) {
-    console.error('TODO');
+    this.router.navigate(['/dashboard/about']);
     event.stopPropagation();
     event.preventDefault();
   }
 
-  getDashboardData() {}
+  getDashboardData() {
+    this.dashboardApiService.getDashboardData().subscribe(res => {
+      this.dashboardData = { ...res };
+      this.isLoading = false;
+    });
+  }
 }

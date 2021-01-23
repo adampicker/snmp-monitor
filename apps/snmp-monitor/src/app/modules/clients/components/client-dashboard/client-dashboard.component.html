@@ -33,17 +33,21 @@
   </div>
   <div>
     <div
-      *ngIf="!isLoading; else loading"
+      *ngIf="!isLoading && chartData && chartData.length > 0"
       echarts
       [options]="chartOptions"
       [merge]="updateOptions"
       class="dashboard-container"
     ></div>
-    <ng-template #loading>
-      <div class="dashboard-container--loading">
-        <mat-spinner></mat-spinner>
-      </div>
-    </ng-template>
+    <div *ngIf="isLoading" class="dashboard-container--loading">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div
+      *ngIf="!isLoading && chartData && chartData.length === 0"
+      class="dashboard-container--no-data"
+    >
+      Empty data set on the server. Please wait till next update.
+    </div>
   </div>
   <div class="container__card-row">
     <div

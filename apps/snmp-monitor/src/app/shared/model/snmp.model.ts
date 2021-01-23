@@ -9,8 +9,8 @@ export interface Client {
   macAddress: string;
   status: string;
   type: string;
-  port: string;
-  pid: number;
+  telnetPort: string;
+  pid: string;
   userName: string;
   configuration: number;
 }

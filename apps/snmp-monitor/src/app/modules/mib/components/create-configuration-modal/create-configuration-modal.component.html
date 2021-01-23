@@ -2,7 +2,7 @@
   <div class="modal-header">
     <div class="modal-header--text">Configuration setup</div>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" *ngIf="!isLoading; else loader">
     <div class="modal-body__info">
       <div class="modal-body__info__name">
         <div class="modal-body__info__name--label">Configuration name</div>
@@ -43,6 +43,9 @@
       </div>
     </div>
   </div>
+  <ng-template #loader>
+    <div class="modal-body--loader"><mat-spinner></mat-spinner></div>
+  </ng-template>
   <div class="modal-footer">
     <div class="modal-footer__buttons">
       <div class="modal-footer__buttons--close-wrapper">

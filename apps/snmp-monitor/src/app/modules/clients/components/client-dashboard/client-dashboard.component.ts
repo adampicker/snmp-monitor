@@ -1,36 +1,15 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ViewEncapsulation,
-  Input
-} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ClientsApiService } from '../../../../core/service/clients-api.service';
 import { Client, Mib } from 'apps/snmp-monitor/src/app/shared/model/snmp.model';
-import { ConfigurationStore } from '../../../configuration/store/configuration.state';
-import {
-  Observable,
-  Subject,
-  forkJoin,
-  VirtualTimeScheduler,
-  merge,
-  of
-} from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
-import { map, takeUntil } from 'rxjs/operators';
-import { ConfigurationService } from '../../../configuration/service/configuration.service';
-import { Configuration } from '../../../configuration/model/configuration.model';
-import { EChartOption } from 'echarts';
 import { DataStore } from 'apps/snmp-monitor/src/app/core/store/data.state';
-import { OpenDataStream } from 'apps/snmp-monitor/src/app/core/store/data.action';
 import { ClientDataService } from '../../service/client-data.service';
 import {
   DataStream,
   DataValues
 } from 'apps/snmp-monitor/src/app/core/model/data.model';
-
-import { chartOptions } from './chart-options';
+import { graphic } from 'echarts';
 
 interface ChartData {
   name: number;
@@ -74,9 +53,6 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.client);
-    this.now = new Date(2020, 5, 27, 0, 0, 0, 0);
-    this.value = Math.random() * 1000;
     this.loadConfigurationMibs();
   }
 
@@ -102,7 +78,6 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
   }
 
   private refreshChart() {
-    console.log(this.updateOptions);
     this.updateOptions = {
       series: [
         {
@@ -131,11 +106,17 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
     const data = this.allData.filter(value =>
       this.mibToFetch.oid.includes(value.oid)
     );
-    console.log(data);
     this.chartOptions = {
       ...this.chartOptions,
       title: {
-        text: this.mibToFetch.description
+        text: this.mibToFetch.description,
+        textStyle: {
+          align: 'center',
+          color: '#000',
+          fontSize: 20
+        },
+        top: '5%',
+        left: 'center'
       }
     };
     this.cleanAndUpdateChart(data);
@@ -144,13 +125,14 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
   startDataStream() {
     let initialLoadDone = false;
     this.clientDataService
-      .getDataValuesAsObservable() //temmp id)
+      .getDataValuesAsObservable(this.client.id) //temmp id)
       .subscribe((data: DataStream) => {
         if (data && data.values) {
-          if (data.values.length === 0) return;
-          else if (!initialLoadDone) {
+          if (data.values.length === 0) {
+            this.isLoading = false;
+            return;
+          } else if (!initialLoadDone) {
             this.allData = data.values;
-            //console.log(data.values);
             this.initChart(
               data.values
                 .map(val => {
@@ -164,7 +146,6 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
             initialLoadDone = true;
             this.isLoading = false;
           } else {
-            //console.log(data.values);
             data.values.forEach((val: DataValues) => {
               this.allData.push(val);
               this.mibCardsValues[val.oid] = val.value;
@@ -200,13 +181,8 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
     );
     this.refreshChart();
   }
-  //  todo
-  // ogarnac zaznaczanie mibow do nowej konfiguracji
-  //  w updacie dodac dodawanie nowych
-  //
 
   private initChart(data: DataValues[]) {
-    console.log(data);
     if (data) {
       this.chartData = data.map(
         val =>
@@ -218,37 +194,87 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
 
       this.chartOptions = {
         title: {
-          text: this.mibToFetch.description
+          text: this.mibToFetch.description,
+          textStyle: {
+            align: 'center',
+            color: '#000',
+            fontSize: 20
+          },
+          top: '5%',
+          left: 'center'
         },
+        // tooltip: {
+        //   trigger: 'axis',
+        //   formatter: params => {
+        //     params = params[0];
+        //     const date = new Date(params.name);
+        //     return (
+        //       date.getDate() +
+        //       '/' +
+        //       (date.getMonth() + 1) +
+        //       '/' +
+        //       date.getFullYear() +
+        //       ' ' +
+        //       date.getHours() +
+        //       ':' +
+        //       date.getMinutes() +
+        //       ':' +
+        //       date.getSeconds() +
+        //       ' : ' +
+        //       params.value[1]
+        //     );
+        //   },
+        //   axisPointer: {
+        //     animation: true
+        //   }
+        // },
         tooltip: {
           trigger: 'axis',
-          formatter: params => {
-            params = params[0];
-            const date = new Date(params.name);
-            return (
-              date.getDate() +
-              '/' +
-              (date.getMonth() + 1) +
-              '/' +
-              date.getFullYear() +
-              ' ' +
-              date.getHours() +
-              ':' +
-              date.getMinutes() +
-              ':' +
-              date.getSeconds() +
-              ' : ' +
-              params.value[1]
-            );
-          },
           axisPointer: {
-            animation: true
+            lineStyle: {
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: 'rgba(0, 255, 233,0)'
+                  },
+                  {
+                    offset: 0.5,
+                    color: 'rgba(255, 255, 255,1)'
+                  },
+                  {
+                    offset: 1,
+                    color: 'rgba(0, 255, 233,0)'
+                  }
+                ],
+                global: false
+              }
+            }
           }
         },
         xAxis: {
           type: 'time',
-          splitLine: {
-            show: false
+          axisLine: {
+            show: true
+          },
+          splitArea: {
+            //show: true,
+            color: '#f00',
+            lineStyle: {
+              color: '#f00'
+            }
+          },
+          axisLabel: {
+            show: true,
+            margin: 20,
+            textStyle: {
+              color: '#000'
+            }
           }
         },
         yAxis: {
@@ -261,11 +287,61 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
         },
         series: [
           {
-            name: 'Mocking Data',
+            name: 'Value:',
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,
-            data: this.chartData
+            data: this.chartData,
+            symbol: 'circle',
+            symbolSize: 20,
+            lineStyle: {
+              normal: {
+                color: '#6c50f3'
+                //shadowColor: 'rgba(0, 0, 0, .3)',
+                //shadowBlur: 0,
+                //shadowOffsetY: 5,
+                //shadowOffsetX: 5
+              }
+            },
+            label: {
+              // show: true,
+              position: 'top',
+              textStyle: {
+                color: '#6c50f3'
+              }
+            },
+            itemStyle: {
+              color: '#6c50f3',
+              borderColor: '#fff',
+              borderWidth: 3,
+              shadowColor: 'rgba(0, 0, 0, .3)',
+              shadowBlur: 0,
+              shadowOffsetY: 2,
+              shadowOffsetX: 2
+            },
+            areaStyle: {
+              normal: {
+                color: new graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: 'rgba(108,80,243,0.3)'
+                    },
+                    {
+                      offset: 1,
+                      color: 'rgba(108,80,243,0)'
+                    }
+                  ],
+                  false
+                ),
+                shadowColor: 'rgba(108,80,243, 0.9)',
+                shadowBlur: 20
+              }
+            }
           }
         ]
       };

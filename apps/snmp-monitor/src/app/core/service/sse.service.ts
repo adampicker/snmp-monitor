@@ -32,13 +32,12 @@ export class SseService {
     private authenticationService: AuthenticationService
   ) {}
 
-  getServerSentEvent(url: string): Observable<any> {
+  getServerSentEvent(eventSource: EventSourcePolyfill): Observable<any> {
     const httpOptions = {
       headers: this.headers
     };
 
     return new Observable(observer => {
-      const eventSource = this.getEventSource(url);
       console.log('openning event source');
       eventSource.onmessage = event => {
         this._zone.run(() => {
@@ -47,9 +46,7 @@ export class SseService {
       };
       eventSource.onerror = error => {
         this._zone.run(() => {
-          console.log('have error');
           console.log(error);
-          //observer.error(error);
         });
       };
     });
@@ -86,7 +83,6 @@ export class SseService {
   }
 
   closeEventSource(eventSource: EventSourcePolyfill) {
-    console.log(eventSource);
     if (eventSource) eventSource.close();
   }
 }
