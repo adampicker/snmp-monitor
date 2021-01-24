@@ -45,7 +45,7 @@ export class ClientDataService {
       return;
     this.dataValuesStream = {
       eventSource: this.sse.getEventSource(
-        `${environment.API_URL}users/data-stream/${clientId}`
+        `${environment.API_URL}/users/data-stream/${clientId}`
       ),
       events: new BehaviorSubject<DataStream>(null)
     };
