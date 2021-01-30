@@ -1,10 +1,10 @@
-//Install express server
+//Instalacja serwera expressjs
 const express = require('express');
 const path = require('path');
 
 const app = express();
 
-// Serve only the static files form the dist directory
+// Udostępnianie są tylko pliki statyczne z katalogu dist
 app.use(express.static(__dirname + '/dist/apps/snmp-monitor'));
 
 app.get('/*', function(req,res) {
@@ -12,5 +12,5 @@ app.get('/*', function(req,res) {
 res.sendFile(path.join(__dirname+'/dist/apps/snmp-monitor/index.html'));
 });
 
-// Start the app by listening on the default Heroku port
+// Aplikacja uruchomiona na porcie 8080
 app.listen(process.env.PORT || 8080);
